@@ -32,7 +32,7 @@ app.use((req,res,next)=>{
 
 //routes
 app.use('/',userRouter)
-
+app.use('/admin',adminRouter)
 
 
 

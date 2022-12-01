@@ -27,10 +27,28 @@ module.exports={
         if(req.body.email === aEmail && req.body.password=== aPassword){
             req.session.admin = aEmail
             res.redirect('/admin/home')
-        }else if(req.body.email===" "){
-            res.render('admin/login',{notEmail:"Email required!!!"})
+        }else if(!req.body.email){
+            res.render('admin/login',{notEmail:"Email required!!!"});
+        }else if(!req.body.password){
+            res.render('admin/login',{invalid:"password required !!!"});
         }else{
-
+            res.render('admin/login',{invalid:'Invalid email or password!!!'});
         }
-}
+      },
+      adminLogout:(req,res)=>{
+        req.session.destroy()
+        res.redirect('/admin')
+      },
+      getAllUsers:async(req,res)=>{
+        const admin = req.session.admin
+
+            if(admin){
+                const users  = await user.find()
+                res.render('admin/userDetails',{users})
+            }else{
+                res.redirect('/admin');
+            }
+        }
+      
+
 }
