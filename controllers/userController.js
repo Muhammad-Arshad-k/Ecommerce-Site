@@ -67,14 +67,17 @@ postLogin:async(req,res)=>{
     const userData = await userSchema.findOne({email:email})
     try{
         if(userData){
-            const passwordMatch = await bcrypt.compare(password,userData.password)
-            if(passwordMatch){
-                req.session.user = req.body.email
-                res.redirect('/')
+            if(userData.isBlocked ===false){
+                const passwordMatch = await bcrypt.compare(password,userData.password)
+                if(passwordMatch){
+                    req.session.user = req.body.email
+                    res.redirect('/')
+                }else{
+                    res.render('user/login',{invalid:'Invalid Email or Password'})
+                }
             }else{
-                res.render('user/login',{invalid:'Invalid Email or Password'})
-            }
-
+                res.render('user/login',{invalid:'user blocked'})
+            }     
         }else{
             res.render('user/login',{invalid:'Invalid Email Or Password'})
         }

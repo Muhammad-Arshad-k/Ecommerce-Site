@@ -27,12 +27,8 @@ module.exports={
         if(req.body.email === aEmail && req.body.password=== aPassword){
             req.session.admin = aEmail
             res.redirect('/admin/home')
-        }else if(!req.body.email){
-            res.render('admin/login',{notEmail:"Email required!!!"});
-        }else if(!req.body.password){
-            res.render('admin/login',{invalid:"password required !!!"});
         }else{
-            res.render('admin/login',{invalid:'Invalid email or password!!!'});
+            res.render('admin/login',{invalid:"invalid username or password"});
         }
       },
       adminLogout:(req,res)=>{
@@ -48,7 +44,17 @@ module.exports={
             }else{
                 res.redirect('/admin');
             }
+        },
+        blockUser :async (req,res)=>{
+            const id = req.params.id;
+            await user.updateOne({_id:id},{$set:{isBlocked:true}}).then(()=>{
+                res.redirect("/admin/userDetails")
+            })
+        },
+        unblockUser:async (req,res)=>{
+            const id = req.params.id;
+            await user.updateOne({_id:id},{$set:{isBlocked:false}}).then(()=>{
+                res.redirect('/admin/userDetails');
+            })
         }
-      
-
 }
