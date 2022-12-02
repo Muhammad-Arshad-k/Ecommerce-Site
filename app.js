@@ -3,6 +3,7 @@ const path  =  require('path');
 const session = require('express-session');
 const userRouter  = require('./router/user');
 const adminRouter = require('./router/admin');
+const fileUpload  = require('express-fileupload');
 require('./config/connection')
 
 
@@ -20,6 +21,8 @@ app.use(session({
     cookie:{maxAge:6000000},
     resave:false
 }))
+
+app.use(fileUpload())
 //to prevent storing cache memory
 app.use((req,res,next)=>{
     res.set(

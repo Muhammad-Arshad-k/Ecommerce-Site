@@ -11,11 +11,11 @@
 </head>
 
 <body>
-  <div class="container-fluid ">
-    <div class="row flex-nowrap h-100 w-auto ">
-      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 " style="background-color: #071c30;">
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #080a0c">
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-          <a href="/admin" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-5 d-none d-sm-inline">Admin</span>
           </a>
           <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
@@ -53,73 +53,61 @@
                 <span class="ms-1 d-none d-sm-inline">Users</span>
               </a>
             </li>
-            
+            <li>
+              <a href="/admin/adminLogout" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic6.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Logout</span>
+              </a>
+            </li>
           </ul>
           <hr />
-          <ul class="nav nav-pills flex-column  mb-5 align-items-center align-items-sm-start" id="menu">
-            <li class="nav-item">
-          <a href="/admin/logout" class="nav-link px-0 align-middle">
-            <img src="/adminimages/pic6.jpg" alt="" style="width: 1rem" />
-            <span class="ms-1 d-none d-sm-inline">Logout</span>
-          </a>
-        </li>
-    </ul>
         </div>
-       
       </div>
-     
       <div class="col py-3">
 
-        <div class="d-flex align-items-center justify-content-center">
-          <h1 class="text-decoration-underline">User details</h1>
+        <div class="container mt-5 w-50 border ">
+          <form action="/admin/postProduct" method="post" id="form" enctype="multipart/form-data">
+            <div class="d-flex justify-content-center">
+              <h1>Add Product</h1>
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input type="text" placeholder="Product name" name="name" id="p-name"
+                class="form-control" />
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input type="text" placeholder="Price" name="price" id="price" class="form-control" />
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input type="text" placeholder="Category" name="category" id="category" class="form-control" />
+              <!-- <select class="form-select "   aria-label="Default select example">
+                <option selected disabled>Category</option>
+              
+                <option value="hwollooo" ></option>
+             
+                
+              </select> -->
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input type="text" placeholder="Description" name="description" id="description" class="form-control" />
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input type="text" placeholder="stock" name="stock" id="stock" class="form-control" />
+            </div>
+            <div class="form-outline flex-fill mb-0 mt-4">
+              <input class="form-control" placeholder="Product image" type="file" name="pImage"
+                id="image">
+            </div>
+            <div class="d-flex justify-content-center mt-4 ">
+              <button type="submit" class="btn btn-success btn-block mb-4">Add product</button>
+            </div>
+
+          </form>
         </div>
-        <table class="table mt-5" id="table">
-          <thead>
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">name</th>
-              <th scope="col">email</th>
-              <th scope="col">Mobile</th>
-              <th scope="col">Controlls</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <% let count=1 %>
-              <% users.forEach((user)=>{ %>
-                <tr>
-                  <td>
-                    <%= count %>
-                  </td>
-                  <td>
-                    <%=user.name %>
-                  </td>
-                  <td>
-                    <%=user.email %>
-                  </td>
-                  <td>
-                    <%=user.phone %>
-                  </td>
-                  <td>
-                    <% if(user.isBlocked===false) { %>
-                      <a href="/admin/blockUser/<%= user._id%>" class="btn btn-danger">Block</a>
-                      <% }else{ %>
-                        <a href="/admin/unblockUser/<%= user._id%>" class="btn btn-success">Unblock</a>
-                        <%}%>
-                  </td>
-                </tr>
-                <% count++ %>
-                  <% }) %>
-
-
-          </tbody>
-        </table>
 
       </div>
     </div>
   </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
 

@@ -25,7 +25,7 @@ form.addEventListener('submit',(e)=>{
         flag = 0;
     }
 
-    if(emailValue === " "){
+    if(emailValue === ""){
         setError(email,"Field Cannot be Empty","emailError")
         flag =1;
     }else if(!emailValidation(emailValue)){
@@ -35,7 +35,7 @@ form.addEventListener('submit',(e)=>{
         setSuccess(email,'emailError');
         flag =0;   
     }
-    if(phoneValue ===" "){
+    if(phoneValue ===""){
         setError(phone,'Field Cannot be empty','phoneError')
         flag =1;
     }else if(phoneValue.toString().length !== 10 || isNaN(Number(phoneValue))){
@@ -45,8 +45,8 @@ form.addEventListener('submit',(e)=>{
         setSuccess(phone,'phoneError')
         flag =0
     }
-    if(passwordValue === " "){
-        setError(password,'Field empty!!!','passwordError')
+    if(passwordValue === ""){
+        setError(password,'Field Cannot be empty','passwordError')
         flag = 1
     }else if(passwordValue.length < 8){
         setError(password,'Password must atleast 8 characters','passwordError')
@@ -58,8 +58,8 @@ form.addEventListener('submit',(e)=>{
         setSuccess(password,'passwordError')
            flag = 0 
     }
-    if(confirmPasswordValue === " "){
-        setError(confirmPassword,'Field cannot be empty','conpasswordError')
+    if(confirmPasswordValue === ""){
+        setError(confirmPassword,'Field cannot be empty','confirmPasswordError')
         flag = 1
     }else if(confirmPasswordValue.length < 5){
         setError(password,'password must contain minimum 5 charecters','confirmPasswordError')

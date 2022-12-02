@@ -1,6 +1,6 @@
 var express      = require('express');
 const userController = require('../controllers/userController');
-const router = express()
+const router = express() 
 
  
 router.use(express.json());
@@ -13,9 +13,10 @@ router.post('/login',userController.postLogin)
 
 router.get('/signup',userController.getSignup);
 router.post('/signup',userController.postSignup)
+router.get('/otpPage', userController.getOtpPage);
+router.post('/otp', userController.postOtp);
 
-
-
+ 
 router.get('/index',userController.getHome);
 router.get('/cart',userController.getCart);
 router.get('/about',userController.getAbout);

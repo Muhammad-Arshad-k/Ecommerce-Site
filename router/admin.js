@@ -9,4 +9,13 @@ adminRouter.get('/logout',adminController.adminLogout)
 adminRouter.get('/userDetails',adminController.getAllUsers)
 adminRouter.get('/blockUser/:id',adminController.blockUser)
 adminRouter.get('/unblockUser/:id',adminController.unblockUser)
-module.exports= adminRouter
+adminRouter.get('/addProduct',adminController.addProduct)
+adminRouter.post('/postProduct',adminController.postProduct)
+adminRouter.get('/productDetails',adminController.productDetails)
+adminRouter.get('/editProduct/:id',adminController.editProduct)
+adminRouter.post('/postEditproduct/:id',adminController.postEditProduct)
+adminRouter.get('/deleteproduct/:id',adminController.deleteProduct)
+
+
+
+module.exports= adminRouter 
