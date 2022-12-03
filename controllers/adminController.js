@@ -126,5 +126,57 @@ module.exports={
                 res.redirect('/admin/productDetails')
             })
         },
-        
+        getCategory:async(req,res)=>{
+            const admin = req.session.admin
+            if(admin){
+                const category = await categories.find();
+                let submitErr = req.session.submitErr
+                res.render('admin/category',{category,submitErr});
+
+            }else{
+                res.redirect('/admin')
+            }
+        },
+        addCategory:async(req,res)=>{
+            if(req.body.name){
+                const name = req.body.name
+                const catgry = await categories.findOne({category_name:name});
+                if(catgry){
+                    //must pass message
+                    res.redirect('/admin/category')
+                }else{
+                    const category = new categories({
+                        category_name:req.body.name
+                    })
+                    await category.save()
+                    res.redirect('/admin/category');
+                }
+            }else{
+                req.session.submitErr = "oops some data missing!"
+                res.redirect('/admin/category')
+            }
+        },
+        editCategory:async(req,res)=>{
+            if(req.body.name){
+                const name = req.body.name
+                const findName = await categories.findOne({category_name:name});
+                if(!findName){
+                    const id = req.params.id
+                    await categories.updateOne({_id:id},{$set:{
+                        category_name:req.body.name
+
+                    }})
+                    res.redirect('/admin/category')
+                }else{
+                    res.redirect('/admin/category')
+                }
+            }
+            
+        },
+        deleteCategory:async(req,res)=>{
+            const id = req.params.id
+            console.log(id);
+            await categories.deleteOne({_id:id})
+              res.redirect('/admin/category')
+        }
 }

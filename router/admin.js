@@ -15,6 +15,10 @@ adminRouter.get('/productDetails',adminController.productDetails)
 adminRouter.get('/editProduct/:id',adminController.editProduct)
 adminRouter.post('/postEditproduct/:id',adminController.postEditProduct)
 adminRouter.get('/deleteproduct/:id',adminController.deleteProduct)
+adminRouter.get('/category',adminController.getCategory)
+adminRouter.post('/addCategory',adminController.addCategory)
+adminRouter.post('/editCategory/:id',adminController.editCategory)
+adminRouter.get('/deleteCategory/:id',adminController.deleteCategory)
 
 
 

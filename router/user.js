@@ -24,6 +24,7 @@ router.get('/shop',userController.getShop);
 router.get('/checkout',userController.getCheckout);
 router.get('/thankyou',userController.getThankyou);
 router.get('/contact',userController.getContact);
+router.get('/productView',userController.getShopSingle)
 
 router.get('/logout',userController.userLogout)
 

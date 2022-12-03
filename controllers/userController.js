@@ -146,6 +146,9 @@ module.exports = {
     },
     getContact: (req, res) => {
         res.render('user/contact');
+    },
+    getShopSingle: (req,res)=>{
+        res.render('user/productView');
     }
 }
 
