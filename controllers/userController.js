@@ -55,8 +55,9 @@ module.exports = {
             to: email,
             subject: 'Otp for Wonder shoes signup',
             html: `<p>Your OTP for registering in wonderShoes  is ${mailer.OTP}</p>`
+           
         }
-
+        
         const userExists = await checkEmail(req.body.email);
         console.log(userExists)
         if (userExists) {
@@ -85,14 +86,15 @@ module.exports = {
 
         if(mailer.OTP===otp){
           try{
-            const user = await user.create({
+            const user = await userSchema.create({
                 name:name,
                 email:email,
                 phone:phone,
                 password:password
             })
+            
           }catch(error){
-            console.log("error occured")
+            console.log(error)
           }
           res.redirect('/login')
         }else{
