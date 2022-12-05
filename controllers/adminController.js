@@ -1,7 +1,7 @@
 require('dotenv').config()
 const user = require('../model/userSchema');
 const products = require('../model/productSchema');
-const categories = require('../model/categorySchema')
+const categories = require('../model/categorySchema');
 
 const aEmail  = process.env.ADMIN_EMAIL
 const aPassword = process.env.ADMIN_PASSWORD

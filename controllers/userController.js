@@ -1,7 +1,9 @@
 const express = require('express');
 const userSchema = require('../model/userSchema')
+const mongoose  = require("mongoose")
 const bcrypt = require('bcrypt');
 const mailer = require("../middlewares/otpValidation");
+const productSchema = require('../model/productSchema');
 
 async function checkEmail(userEmail){
     const userFound = await userSchema.findOne({ email: userEmail })
@@ -49,7 +51,7 @@ module.exports = {
             email = req.body.email,
             phone = req.body.phone,
             password = spassword
-
+ 
         const mailDetails = {
             from: 'wonderstories8935@gmail.com',
             to: email,
@@ -124,19 +126,29 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-    },
+    }, 
     userLogout: (req, res) => {
         req.session.destroy()
         res.redirect("/")
     },
+    getShopPage:async(req, res) => {
+
+        let product= await productSchema.find()
+        res.render('user/shop',{product})
+    },
+    getProductViewPage: async (req, res) => {
+      
+        let id = req.params.id
+        let product = await productSchema.findOne({ _id: id })
+
+        res.render('user/productView',{product:product});
+        
+      },
     getCart: (req, res) => {
         res.render('user/cart')
     },
     getAbout: (req, res) => {
         res.render('user/about');
-    },
-    getShop: (req, res) => {
-        res.render('user/shop')
     },
     getCheckout: (req, res) => {
         res.render('user/checkout');
