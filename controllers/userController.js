@@ -18,9 +18,9 @@ module.exports = {
 
   //to render the home page
   getHome: async (req, res) => {
-    const user = req.session.user;
+    const session = req.session.user;
     let product = await products.find({ delete: false }).populate('category')
-    if (user) {
+    if (session) {
       customer = true;
     } else {
       customer = false;
@@ -276,16 +276,147 @@ module.exports = {
         res.json({ status: true });
       });
   },
-
-  getCart: (req, res) => {
-    res.redirect("/viewcart")
+  totalAmount: async (req, res) => {
+    let session = req.session.user;
+    const userData = await users.findOne({ email: session });
+    const productData = await cart.aggregate([
+      {
+        $match: { userId: userData.id },
+      },
+      {
+        $unwind: "$product",
+      },
+      {
+        $project: {
+          productItem: "$product.productId",
+          productQuantity: "$product.quantity",
+        },
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productItem",
+          foreignField: "_id",
+          as: "productDetail",
+        },
+      },
+      {
+        $project: {
+          productItem: 1,
+          productQuantity: 1,
+          productDetail: { $arrayElemAt: ["$productDetail", 0] },
+        },
+      },
+      {
+        $addFields: {
+          productPrice: {
+            $multiply: ["$productQuantity", "$productDetail.price"],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: userData.id,
+          total: {
+            $sum: { $multiply: ["$productQuantity", "$productDetail.price"] },
+          },
+        },
+      },
+    ]).exec();
+    res.json({ status: true, productData });
   },
+  viewProfile:async (req,res)=>{
+   const session = req.session.user;
+   let userData = await users.findOne({email:session})
+   res.render('user/profile',{userData,countInCart})
+  },
+  editProfile:async(req,res)=>{
+    const session = req.session.user;
+   let userData = await users.findOne({email:session})
+    res.render('user/editProfile',{userData,countInCart})
+  },
+  postEditProfile: async (req, res) => {
+    const session = req.session.user;
+    await users.updateOne(
+      { email: session },
+      {
+        $set: {
+
+          name: req.body.name,
+          phonenumber: req.body.phone,
+          addressDetails: [
+            {
+              housename: req.body.housename,
+              area: req.body.area,
+              landmark: req.body.landmark,
+              district: req.body.district,
+              state: req.body.state,
+              postoffice: req.body.postoffice,
+              pin: req.body.pin
+            }
+          ]
+
+        }
+      }
+    );
+
+    res.redirect('/viewProfile')
+  },
+  getCheckOutPage: async (req, res) => {
+    let session = req.session.user;
+    const userData = await users.findOne({ email: session });
+    const productData = await cart
+      .aggregate([
+        {
+          $match: { userId: userData.id },
+        },
+        {
+          $unwind: "$product",
+        },
+        {
+          $project: {
+            productItem: "$product.productId",
+            productQuantity: "$product.quantity",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "productItem",
+            foreignField: "_id",
+            as: "productDetail",
+          },
+        },
+        {
+          $project: {
+            productItem: 1,
+            productQuantity: 1,
+            productDetail: { $arrayElemAt: ["$productDetail", 0] },
+          },
+        },
+        {
+          $addFields: {
+            productPrice: {
+              $multiply: ["$productQuantity", "$productDetail.price"]
+            }
+          }
+        }
+      ])
+      .exec();
+    const sum = productData.reduce((accumulator, object) => {
+      return accumulator + object.productPrice;
+    }, 0);
+
+
+    res.render("user/checkout", { productData, sum, countInCart, userData });
+
+
+  },
+ 
   getAbout: (req, res) => {
     res.render('user/about');
   },
-  getCheckout: (req, res) => {
-    res.render('user/checkout');
-  },
+  
   getThankyou: (req, res) => {
     res.render('user/thankyou');
   },

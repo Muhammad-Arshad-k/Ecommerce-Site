@@ -20,12 +20,16 @@ router.get('/productView/:id', userController.getProductViewPage);
 router.post('/removeProduct', userController. removeProduct);
 router.post('/changeQuantity',userController.changeQuantity);
 router.get('/about',userController.getAbout);
-router.get('/checkout',userController.getCheckout);
+router.get('/viewProfile',verifyLogin.verifyLoginUser,userController.viewProfile);
+router.get('/editProfile',userController.editProfile);
+router.post('/postEditProfile',userController.postEditProfile)
+router.get('/checkout',userController.getCheckOutPage);
 router.get('/thankyou',userController.getThankyou);
 router.get('/contact',userController.getContact);
 router.get('/productView',userController.getShopSingle);
 router.get('/cart/:id',userController.addToCart);
-router.get('/viewCart',userController.viewCart);  
+router.get('/viewCart',verifyLogin.verifyLoginUser,userController.viewCart); 
+ 
 
 
 
