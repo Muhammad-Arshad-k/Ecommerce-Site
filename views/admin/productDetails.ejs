@@ -110,10 +110,21 @@
                 <td>
                   <a href="/admin/editProduct/<%=products._id%>" class="btn btn-success">Edit</a>
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                  <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#exampleModal-<%=products._id%>">
                     Delete
-                  </button>
+                  </button> -->
+                   <% if(products.delete===false) { %>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal-<%=products._id%>">
+                      Delete
+                    </button>
+                    <% }else{ %>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal-<%=products._id%>">
+                        Restore
+                      </button>
+                      <%}%>
                   <!-- Modal -->
                   <div class="modal fade" id="exampleModal-<%=products._id%>" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -123,13 +134,24 @@
                           <h1 class="modal-title fs-5" id="exampleModalLabel>">Delete confirmation</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <% if(products.delete === false){ %>
                         <div class="modal-body">
-                          Are you sure you want to delete <%=products.name%>
+                          Are you sure you want to delete <%=products.name%>?
                         </div>
+                       <% } else {%>
+                        <div class="modal-body">
+                          Are you sure you want to restore <%=products.name%>?
+                        </div>
+                        <%}%>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <% if(products.delete === false) {%>
                           <a href="/admin/deleteproduct/<%=products._id%>"><button type="button"
                               class="btn btn-danger">Delete</button></a>
+                              <% }else{ %>
+                                <a href="/admin/restoreProduct/<%=products._id%>"><button type="button"
+                                    class="btn btn-success">Restore</button></a>
+                                <%}%>  
                         </div>
                       </div>
                     </div>

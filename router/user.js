@@ -1,12 +1,13 @@
 var express      = require('express');
 const userController = require('../controllers/userController');
 const router = express() 
-
+const verifyLogin= require("../middlewares/session")
  
 router.use(express.json());
 router.use(express.urlencoded({extended:true}));
 
 router.get('/',userController.getHome);
+router.get('/index',userController.getHome);
 router.get('/login',userController.getLogin);
 router.post('/login',userController.postLogin)
 router.get('/signup',userController.getSignup);
@@ -16,14 +17,15 @@ router.get('/otpPage', userController.getOtpPage);
 router.post('/otp', userController.postOtp);
 router.get('/shop',userController.getShopPage);
 router.get('/productView/:id', userController.getProductViewPage);
-router.get('/index',userController.getHome);
-router.get('/cart',userController.getCart);
+router.post('/removeProduct', userController. removeProduct);
+router.post('/changeQuantity',userController.changeQuantity);
 router.get('/about',userController.getAbout);
-
 router.get('/checkout',userController.getCheckout);
 router.get('/thankyou',userController.getThankyou);
 router.get('/contact',userController.getContact);
-router.get('/productView',userController.getShopSingle)
+router.get('/productView',userController.getShopSingle);
+router.get('/cart/:id',userController.addToCart);
+router.get('/viewCart',userController.viewCart);  
 
 
 

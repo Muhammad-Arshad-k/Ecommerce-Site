@@ -2,7 +2,6 @@ require('dotenv').config()
 const user = require('../model/userSchema');
 const products = require('../model/productSchema');
 const categories = require('../model/categorySchema');
-
 const aEmail  = process.env.ADMIN_EMAIL
 const aPassword = process.env.ADMIN_PASSWORD
 
@@ -26,9 +25,9 @@ module.exports={
     postAdminLogin:(req,res)=>{
         if(req.body.email === aEmail && req.body.password=== aPassword){
             req.session.admin = aEmail
-            res.redirect('/admin/home')
-        }else{
             res.redirect('/admin');
+        }else{
+            res.render('admin/login',{invalid:"invalid username or password"});
         }
       },
       adminLogout:(req,res)=>{
@@ -57,14 +56,15 @@ module.exports={
                 res.redirect('/admin/userDetails');
             }) 
         },
-        addProduct:(req,res)=>{
-            res.render('admin/addProduct');
+        addProduct:async(req,res)=>{
+            const category = await categories.find()
+            res.render('admin/addProduct',{category:category});
         },
         
         postProduct:async(req,res)=>{
-            const image = req.files.pImage
+            const image = req.files.product_image
             const product = new products({ 
-                 name:req.body.name,
+                 name:req.body.product_name,
                  price:req.body.price,
                  category:req.body.category,
                  description:req.body.description, 
@@ -73,6 +73,7 @@ module.exports={
             const productDetails = await product.save()
           if(productDetails){
             let productId = productDetails._id;
+        
             image.mv('./public/adminImages/'+productId+'.jpg',(err)=>{
                 if(!err){
                     res.redirect('/admin/productDetails')
@@ -92,9 +93,10 @@ module.exports={
         },
         editProduct:async(req,res)=>{
             const id = req.params.id;
-             
+
+            const category = await categories.find()
             const productData = await products.findOne({_id:id})
-            res.render('admin/editProduct',{productData})
+            res.render('admin/editProduct',{productData,category})
         },
         postEditProduct:async(req,res)=>{
             const id = req.params.id;
@@ -122,7 +124,13 @@ module.exports={
         },
         deleteProduct:async(req,res)=>{
             const id = req.params.id;
-            await products.deleteOne({_id:id}).then(()=>{
+            await products.updateOne({_id:id},{$set:{delete:true}}).then(()=>{
+                res.redirect('/admin/productDetails')
+            })
+        },
+        restoreProduct:async (req,res)=>{
+            const id = req.params.id;
+            await  products.updateOne({_id:id},{$set:{delete:false}}).then(()=>{
                 res.redirect('/admin/productDetails')
             })
         },
@@ -131,6 +139,8 @@ module.exports={
             if(admin){
                 const category = await categories.find();
                 let submitErr = req.session.submitErr
+
+                 
                 res.render('admin/category',{category,submitErr});
 
             }else{
@@ -146,7 +156,7 @@ module.exports={
                     res.redirect('/admin/category')
                 }else{
                     const category = new categories({
-                        category_name:req.body.name
+                         category_name:req.body.name
                     })
                     await category.save()
                     res.redirect('/admin/category');
@@ -156,12 +166,12 @@ module.exports={
                 res.redirect('/admin/category')
             }
         },
-        editCategory:async(req,res)=>{
+        editCategory:async(req,res)=>{ 
             if(req.body.name){
                 const name = req.body.name
                 const findName = await categories.findOne({category_name:name});
                 if(!findName){
-                    const id = req.params.id
+                    const id = req.params.id;
                     await categories.updateOne({_id:id},{$set:{
                         category_name:req.body.name
 
@@ -170,6 +180,8 @@ module.exports={
                 }else{
                     res.redirect('/admin/category')
                 }
+            }else{
+                res.redirect('/admin/category');
             }
             
         },
@@ -179,4 +191,4 @@ module.exports={
             await categories.deleteOne({_id:id})
               res.redirect('/admin/category')
         }
-}
+}  
