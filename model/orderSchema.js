@@ -17,7 +17,7 @@ const orderSchema = new Schema(
             type:Number,
             required:true
         },
-        orderItem:[
+        orderItems:[
             {
                 productId:{
                     type:ObjectId,
@@ -37,19 +37,22 @@ const orderSchema = new Schema(
             type:String,
             default:"pending"
         },
-        paymentMethod:{
-            paymentStatus:{
-                type:String,
-                default:"not paid"
-            }
+        paymentMethod:
+        {
+            type:String,
+            required:true
         },
-        orderData:{
+        paymentStatus:{
+         type:String,
+         default:"not paid"
+        },
+        orderDate:{
             type:String,
         },
         deliveryDate:{
             type:String
         }
-    },
+    }, 
     {
         timestamps:true
     }

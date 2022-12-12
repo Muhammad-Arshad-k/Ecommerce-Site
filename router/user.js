@@ -36,6 +36,7 @@ router.get('/orderSuccess', verifyLogin.verifyLoginUser,userController.orderSucc
 router.get('/orderDetails',userController.orderDetails);
 router.get('/viewWishlist',verifyLogin.verifyLoginUser,userController.viewWishlist)
 router.get('/wishList/:id',verifyLogin.verifyLoginUser,userController.addToWishlist)
-
+router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct);
+router.post('/cancelOrder/:id',verifyLogin.verifyLoginUser,userController.cancelOrder);
 module.exports=router;
   
