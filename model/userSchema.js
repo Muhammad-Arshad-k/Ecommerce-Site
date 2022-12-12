@@ -33,10 +33,10 @@ const userSchema = new mongoose.Schema({
             type:String,
          },
          postoffice:{
-            type:String
+            type:String,
          },
          state:{
-            type:String
+            type:String,
          },
          pin:{
             type:String,

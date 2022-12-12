@@ -1,186 +1,300 @@
-<%-include("../partials/header")%>
-  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- CSS only -->
+  <link rel="stylesheet" href="/https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+  <link rel="stylesheet" href="/fonts/icomoon/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+    <div class="site-wrap">
+      <header class="site-navbar" role="banner">
+        <div class="site-navbar-top">
+          <div class="container">
+            <div class="row align-items-center">
+
+              <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                <form action="" class="site-block-top-search">
+                  <span class="icon icon-search2"></span>
+                  <input type="text" class="form-control border-0" placeholder="Search">
+                </form>
+              </div>
+
+              <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                <div class="site-logo">
+                  <a href="/index" class="js-logo-clone" style="text-decoration: none;">Wonder Shoes</a>
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+                <div class="site-top-icons">
+                  <ul>
+
+                    <li><a href="/viewProfile" style="text-decoration: none;"><span class="icon icon-person"></li>
+                    <li><a href="#" style="text-decoration: none;"><span class="icon icon-heart-o"></a></li>
+                    <li>
+
+
+                      <a href="/viewCart" class="site-cart" style="text-decoration: none;">
+
+                        <span class="icon icon-shopping_cart"></span>
+                        <% if(locals.countInCart) {%>
+                          <span class="count">
+                            <%=countInCart%>
+                          </span>
+                          <% } %>
+                      </a>
+
+                    </li>
+                    <li class="d-inline-block d-md-none ml-md-0"><a href="#"
+                        class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <nav class="site-navigation text-right text-md-center" role="navigation">
+          <div class="container">
+            <ul class="site-menu js-clone-nav d-none d-md-block">
+              <li class="has-children active">
+                <a href="/index" style="text-decoration: none;">Home</a>
+              </li>
+              <li class="has-children">
+                <a href="/about" style="text-decoration: none;">About</a>
+              </li>
+              <li><a href="/shop" style="text-decoration: none;">Shop</a></li>
+              <li><a href="#" style="text-decoration: none;">My Orders</a></li>
+              <li><a href="/contact" style="text-decoration: none;">Contact Us</a></li>
+              <% if(customer){%>
+                <li><a href="/logout" style="text-decoration: none;">Logout</a></li>
+                <%}else{%>
+                  <li><a href="/login" style="text-decoration: none;">Login</a></li>
+                  <%}%>
+            </ul>
+          </div>
+        </nav>
+      </header>
+
       <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="/index">Home</a> <span class="mx-2 mb-0">/</span> <a href="cart.html">Cart</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Checkout</strong></div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0"><a href="/index" style="text-decoration: none;">Home</a> <span
+                class="mx-2 mb-0">/</span> <a href="/getCart" style="text-decoration: none;">Cart</a> <span
+                class="mx-2 mb-0">/</span> <strong class="text-black" style="text-decoration: none;">Checkout</strong>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-md-12">
-            <div class="border p-4 rounded" role="alert">
-              Returning customer? <a href="/login">Click here</a> to login
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mb-5 mb-md-0">
-            <h2 class="h3 mb-3 text-black">Add New Address</h2>
-            <div class="p-3 p-lg-5 border">
-
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_fname" class="text-black">Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname">
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-              </div>
-
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_state_country" name="c_state_country">
-                </div>
-                <div class="col-md-6">
-                  <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
-                </div>
-              </div>
-
-              <div class="form-group row mb-5">
-                <div class="col-md-6">
-                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
-                </div>
-                <div class="col-md-6">
-                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
-              </div>
-
-            </div>
-          </div>
+     <div class="row">
+      <div class="site-section">
+        <div class="container">
           <div class="col-md-6">
-           <!-- <div class="row mb-5">
-              <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
-                <div class="p-3 p-lg-5 border">
-                  
-                  <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
-                  <div class="input-group w-75">
-                    <input type="text" class="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Apply</button>
-                    </div>
-                  </div>
+              <!-- <div class="row mb-5">
+                <div class="col-md-12">
+                  <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                  <div class="p-3 p-lg-5 border">
 
-                </div>
-              </div>
-            </div> -->
-          
-            <div class="row mb-5">
-              <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Shipping Address</h2>
-                <div class="p-3 p-lg-5 border">
-                  <div class="input-group w-75">
-                    <% userData.addressDetails.forEach((address)=>{%>
-                      <b name="address">
-                        <%= address.housename %>,
-                        <%= address.postoffice%><br>
-                        <%=address.area %><br>
-                        <%= address.district %>,
-                        <%= address.pin %><br>
-                        <%=address.state %>
-                      </b>
-                      <% }) %>
-                   
-                  </div>
-                  <button type="button" class="btn btn-secondary btn-sm mt-3" data-bs-toggle="modal"
-								data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-								Add new address
-							</button>
-                </div>
-              </div>
-            </div>         
-            <div class="row mb-5">
-              <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Your Order</h2>
-                <div class="p-3 p-lg-5 border">
-                  <table class="table site-block-order-table mb-5">
-                    <thead>
-                      <th>Product</th>
-                      <th>Total</th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                        <td>$250.00</td>
-                      </tr>
-                      <tr>
-                        <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                        <td>$100.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black">$350.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">UPI Payment</a></h3>
-
-                    <div class="collapse" id="collapsebank">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                    <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
+                    <div class="input-group w-75">
+                      <input type="text" class="form-control" id="c_code" placeholder="Coupon Code"
+                        aria-label="Coupon Code" aria-describedby="button-addon2">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Apply</button>
                       </div>
                     </div>
+
                   </div>
-
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Online</a></h3>
-
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Cash On Delivery</a></h3>
-
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/thankyou'">Place Order</button>
-                  </div>
-
                 </div>
-              </div>
-            </div>
+              </div> -->
+              <div class="row mb-5">
+                <div class="col-md-12">
+                  <h2 class="h3 mb-3 text-black"> Address</h2>
+                  <div class="p-3 p-lg-5 border">
 
+                    <label class="col-xs-3 control-label">Your Address</label>
+
+                    <select class="form-select mt-2" required name="address" >
+                      <% userData.addressDetails.forEach((address)=>{%>
+                        <option name="address">
+                          <%= address.housename %>,<%= address.postoffice%>,<%= address.landmark %>,<%=address.area %>,<%= address.district %>,<%= address.pin %>,<%=address.state %>
+                        </option>
+                        <% }) %>
+                    </select>
+                    
+                  </div>
+                 
+              <div class="row mb-5">
+                <div class="col-md-12">
+                  <h2 class="h3 mb-3 text-black">Your Order</h2>
+                  <div class="p-3 p-lg-5 border">
+                    <table class="table site-block-order-table mb-5">
+                      <thead>
+                        <th>Product</th>
+                        <th>Total</th>
+                      </thead>
+                      <tbody>
+                        <% productData.forEach(function(product) {%>    
+                        <tr>
+                          <td><%=product.productDetail.name%>  <strong class="mx-2">x</strong> <%= product.productQuantity%></td>
+                          <% var a=product.productDetail.price%>
+                            <% var b=product.productQuantity%>
+                              <% var c=a*b %>
+                          <td> <%= c %>₹</td>
+                        </tr>
+                        <% }) %>
+                        <tr>
+                          <td><b>Total Amout</b></td>
+                          <td>
+                            <%=sum%> ₹
+                          </td>
+    
+                        </tr>
+                      </tbody>
+                    </table>
+                     <h2>Payment</h2>
+                 <form id="placeOrder">
+								<label class="col-xs-3 control-label">Select Shipping Address</label>
+
+								<select class="form-select mt-2" required name="address" >
+									<% userData.addressDetails.forEach((address)=>{%>
+										<option name="address">
+											<%= address.housename %>,<%= address.postoffice%>,<%= address.landmark %>,<%=address.area %>,<%= address.district %>,<%= address.pin %>,<%=address.state %>
+										</option>
+										<% }) %>
+								</select>
+
+								<div class="d-block my-3">
+									<div class="custom-control custom-radio">
+										<input id="credit" name="paymentMethod" type="radio" value="COD"
+											class="custom-control-input" checked required />
+										<label class="custom-control-label" for="credit">COD</label>
+									</div>
+									<div class="custom-control custom-radio">
+										<input id="debit" name="paymentMethod" type="radio" value="Online"
+											class="custom-control-input" required />
+										<label class="custom-control-label" for="debit">Online</label>
+									</div>
+
+									<!-- <button type="submit" value="submit" class="btn btn-secondary mt-5">
+										Place order
+									</button> -->
+                 
+                    <button class="btn btn-primary btn-lg py-3 btn-block mt-5" type="submit" value="submit">Place
+                      Order</button>
+                 
+
+								</div>
+							</form>
+              <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+              Add new address
+            </button>
           </div>
         </div>
-        <!-- </form> -->
-      </div>
-    </div>
 
-    <%-include("../partials/footer.ejs")-%>
+      
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Add new Address
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+              </div>
+              <form action="/addNewAddress" method="post">
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="recipient-name"
+                      class="col-form-label">Housename:</label>
+                    <input required type="text" class="form-control" id="housename"
+                      name="housename" />
+                    <p id="houseError" style="color: red"></p>
+                  </div>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Area:</label>
+                    <input required type="text" class="form-control" id="area"
+                      name="area" />
+                    <p id="areaError" style="color: red"></p>
+                  </div>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Landmark:</label>
+                    <input required type="text" class="form-control" id="landmark"
+                      name="landmark" />
+                    <p id="landmarkError" style="color: red"></p>
+                  </div>
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="firstName">District</label>
+                        <input required type="text" class="form-control"
+                          id="district" name="district" />
+                        <p id="stateError" style="color: red"></p>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="lastName">State</label>
+                        <input required type="text" class="form-control" id="state"
+                          name="state" />
+                        <p id="pincodeError" style="color: red"></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="firstName">Post office</label>
+                        <input required type="text" class="form-control"
+                          id="postoffice" name="postoffice" />
+                        <p id="stateError" style="color: red"></p>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="lastName">Pincode</label>
+                        <input required type="text" class="form-control" id="pin"
+                          name="pin" />
+                        <p id="pincodeError" style="color: red"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" value="submit" class="btn btn-primary">
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- </form> -->
+        </div>
+     
+      </div>
+<%-include("../partials/footer")  %> 
+    

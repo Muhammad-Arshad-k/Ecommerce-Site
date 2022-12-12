@@ -59,7 +59,8 @@
                     <h3><a href="/productView/<%=products._id%>"><%= products.product_name %></a></h3>
                     <p class="mb-0"><%= products.description %></p>
                     <p class="text-primary font-weight-bold"><%= products.price %>₹</p>
-                    
+                    <a href="/productview/<%=products._id%>" class="btn btn-primary">Buy now</a>
+                    <a href="/wishlist/<%=products._id%>" class="icon icon-heart-o btn btn-info "><sub>+</sub></a>
                   </div>
                 </div>
               </div>

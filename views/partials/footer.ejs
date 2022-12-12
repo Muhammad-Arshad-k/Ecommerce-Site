@@ -6,26 +6,26 @@
             <div class="col-md-12">
               <h3 class="footer-heading mb-4">Navigations</h3>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <ul class="list-unstyled">
-                <li><a href="#">Sell online</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Shopping cart</a></li>
-                <li><a href="#">Store builder</a></li>
+            <div class="col-md-6 col-lg-4" >
+              <ul class="list-unstyled" >
+                <li><a href="#"style="text-decoration:none;">Sell online</a></li>
+                <li><a href="#"style="text-decoration:none;">Features</a></li>
+                <li><a href="#"style="text-decoration:none;">Shopping cart</a></li>
+                <li><a href="#"style="text-decoration:none;">Store builder</a></li>
               </ul>
             </div>
             <div class="col-md-6 col-lg-4">
               <ul class="list-unstyled">
-                <li><a href="#">Mobile commerce</a></li>
-                <li><a href="#">Dropshipping</a></li>
-                <li><a href="#">Website development</a></li>
+                <li><a href="#"style="text-decoration:none;">Mobile commerce</a></li>
+                <li><a href="#"style="text-decoration:none;">Dropshipping</a></li>
+                <li><a href="#"style="text-decoration:none;">Website development</a></li>
               </ul>
             </div>
             <div class="col-md-6 col-lg-4">
               <ul class="list-unstyled">
-                <li><a href="#">Point of sale</a></li>
-                <li><a href="#">Hardware</a></li>
-                <li><a href="#">Software</a></li>
+                <li><a href="#"style="text-decoration:none;">Point of sale</a></li>
+                <li><a href="#"style="text-decoration:none;">Hardware</a></li>
+                <li><a href="#"style="text-decoration:none;">Software</a></li>
               </ul>
             </div>
           </div>
@@ -33,8 +33,8 @@
         <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
           <h3 class="footer-heading mb-4">Promo</h3>
           <a href="#" class="block-6">
-            <img src="/images/logo.png" alt="Image placeholder" class="img-fluid rounded mb-4">
-            <h3 class="font-weight-light  mb-0">Finding Your Perfect Shoes</h3>
+            <img style="text-decoration:none;" src="/images/logo.png" alt="Image placeholder" class="img-fluid rounded mb-4">
+            <a class="font-weight-light  mb-0">Finding Your Perfect Shoes</h3>
             <p>Since &mdash;  2022</p>
           </a>
         </div>
@@ -43,7 +43,7 @@
             <h3 class="footer-heading mb-4">Contact Info</h3>
             <ul class="list-unstyled">
               <li class="address">Wonder shoes,Calicut,India</li>
-              <li class="phone"><a href="tel://23923929210">+91 9074145369</a></li>
+              <li class="phone"><a href="tel://23923929210" style="text-decoration:none;">+91 9074145369</a></li>
               <li class="email">wonderstories8935@gmail.com</li>
             </ul>
           </div>
@@ -63,13 +63,13 @@
         <div class="col-md-12">
           <p>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | made <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary">@muhammadarshad8935@gmail.com</a>
+          Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | made <i class="icon-heart" aria-hidden="true"></i> by <a style="text-decoration:none;" href="https://colorlib.com" target="_blank" class="text-primary">@muhammadarshad8935@gmail.com</a>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
         </div>
         
       </div>
-    </div>
+      
   </footer>
 </div>
 
@@ -82,7 +82,28 @@
 <script src="http://localhost:3000/js/aos.js"></script>
 <script src="http://localhost:3000/js/ajaxrequests.js"></script>
 <script src="js/main.js"></script>
-  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+crossorigin="anonymous"></script>
+<script>
+$("#placeOrder").submit((e) => {
+  e.preventDefault();
+  $.ajax({
+    url: '/placeOrder',
+    method: 'post',
+    data: $('#placeOrder').serialize(),
+    success: (resposnse) => {
+      if (resposnse.success) {
+        location.href = "/orderSuccess";
+      }else{
+        location.href = "/viewCart";
+      }
+    }
+  })
+})
+</script>
+
+
 </body>
 </html>
 

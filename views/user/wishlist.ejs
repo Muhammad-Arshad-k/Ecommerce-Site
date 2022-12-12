@@ -1,0 +1,52 @@
+
+
+	<!-- footer -->
+	<%- include('../partials/header')%>
+	<div class="site-section">
+		<div class="container">
+		  <div class="row mb-5">
+			<form class="col-md-12" method="post">
+			  <div class="site-blocks-table">
+				<table class="table ">
+				  <thead>
+					<tr>
+					  <th scope="col" class="product-thumbnail">Image</th>
+					  <th scope="col" class="product-name">Product</th>
+					  <th scope="col" class="product-price">Price</th>
+					  <th scope="col" class="product-addCart">Add to Cart</th>
+					  <th scope="col" class="product-remove">Remove</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<% wishlistData.forEach((product)=>{%>
+					<tr>
+					  <td class="product-thumbnail">
+						<a href="/shop"><img src="/adminImages/<%= product.productDetail._id %>.jpg" alt="Image" class="img-fluid"></a>
+					  </td>
+					  <td class="product-name">
+						<h2 class="h5 text-black"><%= product.productDetail.name %></h2>
+					  </td>
+					  <td><%= product.productDetail.price%> ₹</td>
+					  <td class="addToCart"><a style="color:#fff" class="btn btn-warning" href="">Add to Cart</a></td>
+					  <td class="product-remove">
+						<a class="btn btn-danger" style="color:#fff"
+						onclick="removeProduct('<%= product._id %>','<%= product.productDetail._id %>')">
+						  remove</a>
+					</td>
+					</tr>
+	
+					<% }) %>
+				  
+				  </tbody>
+				</table>
+			  </div>
+			</form>
+		  </div>
+		<!-- end wishlist -->
+	
+	
+	
+	
+		<!-- footer -->
+		<%- include('../partials/footer')%>
+			

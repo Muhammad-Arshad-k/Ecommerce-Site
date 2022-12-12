@@ -8,11 +8,26 @@ function removeProduct(cartId, productId) {
       },
       method: "post",
       success: () => {
+        swal("Good job!", "You clicked the button!", "success")
         location.reload();
       },
     });
   }
 
+  function removeWishlistProduct(cartId, productId) {
+    console.log("man")
+    $.ajax({
+      url: "/removeProduct",
+      data: {
+        cart: cartId,
+        product: productId,
+      },
+      method: "post",
+      success: () => { 
+        location.reload();
+      },
+    });
+  }
   function changeQuantity(cartId, productId, count) {
 			
     let quantity = parseInt(document.getElementById(productId).innerHTML);
@@ -27,7 +42,7 @@ function removeProduct(cartId, productId) {
       success: (response) => {
         document.getElementById(productId).innerHTML = quantity + count;
         // document.getElementsByClassName('subtotal').innerText=response.sum
-        console.log(response);
+        location.reload();
       },
     });
   }

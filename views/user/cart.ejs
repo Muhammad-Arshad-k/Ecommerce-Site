@@ -10,10 +10,13 @@
 
     <div class="site-section">
       <div class="container">
+        <% if (locals.countInCart>0) { %>
+         
+        
         <div class="row mb-5">
           <form class="col-md-12" method="post">
             <div class="site-blocks-table">
-              <table class="table table-bordered">
+              <table class="table ">
                 <thead>
                   <tr>
                     <th class="product-thumbnail">Image</th>
@@ -35,7 +38,7 @@
                     </td>
                     <td><%= product.productDetail.price%> ₹</td>
                     <td  class="product-quantity">
-                      <div class="input-group mb-3 ml-4" style="max-width: 120px; ">
+                      <div class="input-group  " style="max-width: 120px; ">
                         
                         <button class="btn btn-outline-primary js-btn-minus"
                          onclick="changeQuantity('<%= product._id %>','<%= product.productDetail._id %>',-1)" type="button">&minus;</button>
@@ -68,7 +71,14 @@
             </div>
           </form>
         </div>
-
+        <% } else { %>
+          <h2 class="text-center text-danger">Oops!<br>
+            Your Cart is empty </h3>
+          <div class=""><img src="/adminImages/emptyCart.png" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
+           
+         
+          </div>
+        <% } %>
         <div class="row">
           <div class="col-md-6">
             <div class="row mb-5">
@@ -76,7 +86,7 @@
                 <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
               </div>
               <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
+                <a href="/shop"><button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button></a>
               </div>
             </div>
             <div class="row">

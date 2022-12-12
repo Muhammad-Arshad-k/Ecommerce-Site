@@ -762,3 +762,12 @@ a {
   .modal{     
     z-index:1;
    }
+
+a{
+text-decoration:none;
+}
+button{
+    color: #fff;
+    background-color: #7971ea;
+    border-color: #7971ea;
+}

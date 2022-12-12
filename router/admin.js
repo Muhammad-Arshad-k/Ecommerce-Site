@@ -23,4 +23,4 @@ adminRouter.get('/deleteCategory/:id',adminController.deleteCategory)
 
 
 
-module.exports= adminRouter 
+module.exports= adminRouter  
