@@ -13,7 +13,11 @@ const orderSchema = new Schema(
             type:String,
             requiredd:true
         },
-        phoneNumber:{
+        address:{
+           type:String,
+           required:true
+        },
+        phoneNumber:{ 
             type:Number,
             required:true
         },

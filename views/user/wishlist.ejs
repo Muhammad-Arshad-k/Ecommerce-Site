@@ -3,7 +3,9 @@
 	<!-- footer -->
 	<%- include('../partials/header')%>
 	<div class="site-section">
+				
 		<div class="container">
+			<% if (locals.countInWishlist>0) { %>
 		  <div class="row mb-5">
 			<form class="col-md-12" method="post">
 			  <div class="site-blocks-table">
@@ -27,11 +29,11 @@
 						<h2 class="h5 text-black"><%= product.productDetail.name %></h2>
 					  </td>
 					  <td><%= product.productDetail.price%> ₹</td>
-					  <td class="addToCart"><a style="color:#fff" class="btn btn-warning" href="">Add to Cart</a></td>
+					  <td class="addToCart"><a style="color:#fff" class="btn btn-warning" href="/cart/<%= product.productDetail._id %> ">Add to Cart</a></td>
 					  <td class="product-remove">
-						<a class="btn btn-danger" style="color:#fff"
-						onclick="removeProduct('<%= product._id %>','<%= product.productDetail._id %>')">
-						  remove</a>
+					 <button class="btn btn-danger" style="color:#fff"
+					 onclick="removeFromWishlist('<%= product._id %>','<%= product.productDetail._id %>')">
+					 remove</button>
 					</td>
 					</tr>
 	
@@ -42,10 +44,16 @@
 			  </div>
 			</form>
 		  </div>
+		  <% } else { %>
+			<h2 class="text-center text-danger">Oops!<br>
+				Your Cart is empty </h3>
+			  <div class=""><img src="/adminImages/emptyCart.png" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
+			   
+			 
+			  </div>
+		  <% } %>
+	   </div>
 		<!-- end wishlist -->
-	
-	
-	
 	
 		<!-- footer -->
 		<%- include('../partials/footer')%>

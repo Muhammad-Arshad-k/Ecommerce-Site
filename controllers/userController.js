@@ -74,7 +74,7 @@ module.exports = {
 
   ,
   getOtpPage: (req, res) => {
-    res.render('user/otp')
+    res.render('user/otp');
   },
   postOtp: async (req, res) => {
     const otp = req.body.otp;
@@ -126,15 +126,16 @@ module.exports = {
   }, 
   getShopPage: async (req, res) => {
     let product = await products.find({ delete: false })
-    res.render('user/shop', { product, countInCart })
+    console.log
+    res.render('user/shop', { product, countInCart,countInWishlist  })
   },
   getProductViewPage: async (req, res) => {
     let id = req.params.id
     let product = await products.findOne({ _id: id })
-    res.render('user/productView', { product: product, countInCart });
+    res.render('user/productView', { product: product, countInCart,countInWishlist  });
   },
   getCart:(req,res)=>{
-    res.render("user/cart")
+    res.render("user/cart",{countInWishlist })
   },
   addToCart: async (req, res) => {
     const id = req.params.id;
@@ -238,7 +239,7 @@ module.exports = {
     countInCart = productData.length;
     let id = req.params.id
     let product = await products.findOne({ _id: id })
-    res.render("user/cart", { productData, sum, countInCart,product:product });
+    res.render("user/cart", { productData, sum, countInCart,product:product ,countInWishlist });
 
 
   },
@@ -372,7 +373,23 @@ module.exports = {
     }
 
   },
-  
+  removeFromWishlist: async (req, res) => {
+    const data = req.body;
+    const objId = mongoose.Types.ObjectId(data.productId);
+    await wishlist.aggregate([
+      {
+        $unwind: "$product",
+      },
+    ]);
+    await wishlist
+      .updateOne(
+        { _id: data.wishlistId, "product.productId": objId },
+        { $pull: { product: { productId: objId } } }
+      )
+      .then(() => {
+        res.json({ status: true });
+      });
+  }, 
   placeOrder: async (req, res) => {
 
     const session = req.session.user;
@@ -469,13 +486,16 @@ module.exports = {
 
     const session = req.session.user
     const userData = await users.findOne({ email: session });
-    order.find({ userId: userData._id }).sort({ createdAt: -1 }).then((orderDetails) => {
-      res.render('user/orderDetails', { orderDetails, countInCart, countInWishlist })
-    })
-
+    const orderDetails= await order.find({ userId: userData._id }).sort({ createdAt: -1 })
+    res.render('user/orderDetails', { orderDetails, countInCart, countInWishlist })
+    
+         
   },
   orderedProduct: async (req, res) => {
     const id = req.params.id;
+    const session = req.session.user;
+    const userData = await users.findOne({ email: session });
+    const orderDetails= await order.find({ userId: userData._id }).sort({ createdAt: -1 })
     const objId = mongoose.Types.ObjectId(id);
     const productData = await order
     .aggregate([
@@ -512,22 +532,22 @@ module.exports = {
           productDetail: { $arrayElemAt: ["$productDetail", 0] },
         }
       },
-      {
-        $lookup: {
-          from: 'categories',
-          localField: 'productDetail.category',
-          foreignField: "_id",
-          as: "category_name"
-        }
-      },
-      {
-        $unwind: "$category_name"
-      },
+      // {
+      //   $lookup: {
+      //     from: 'categories',
+      //     localField: 'productDetail.category',
+      //     foreignField: "_id",
+      //     as: "category_name"
+      //   }
+      // },
+      // {
+      //   $unwind: "$category_name"
+      // }
 
     ]);
-
-   console.log(productData);
-    res.render('user/orderedProduct', { productData, countInCart, countInWishlist });
+    console.log(productData);
+    console.log(orderDetails);
+    res.render('user/orderedProduct', { productData,orderDetails, countInCart, countInWishlist });
   },
   cancelOrder: async (req, res) => {
     const data = req.params.id;
@@ -537,7 +557,7 @@ module.exports = {
   },
   viewWishlist: async (req, res) => {
                             
-    const session = req.session.user;
+    const session = req.session.user; 
     const userData = await users.findOne({ email: session })
     const userId = mongoose.Types.ObjectId(userData._id);;
     const wishlistData = await wishlist
@@ -602,7 +622,7 @@ module.exports = {
               state: req.body.state,
               postoffice: req.body.postoffice,
               pin: req.body.pin
-            }
+            } 
           ]
 
         }
@@ -658,7 +678,7 @@ module.exports = {
     }, 0);
 
 
-    res.render("user/checkout", { productData, sum, countInCart, userData });
+    res.render("user/checkout", { productData, sum, countInCart,countInWishlist, userData });
 
 
   },
@@ -681,14 +701,14 @@ module.exports = {
   },
  
   getAbout: (req, res) => {
-    res.render('user/about');
+res.render('user/about',{countInWishlist ,countInCart});
   },
   
   getThankyou: (req, res) => {
     res.render('user/thankyou');
   },
   getContact: (req, res) => {
-    res.render('user/contact');
+    res.render('user/contact',{countInWishlist ,countInCart});
   },
   getShopSingle: (req, res) => {
     res.render('user/productView');

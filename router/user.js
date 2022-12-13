@@ -28,15 +28,16 @@ router.get('/thankyou',userController.getThankyou);
 router.get('/contact',userController.getContact);
 router.get('/productView',userController.getShopSingle);
 router.get('/cart/:id',userController.addToCart);
-router.get('/getCart',userController.getCart)
+router.get('/getCart',userController.getCart) 
 router.get('/viewCart',verifyLogin.verifyLoginUser,userController.viewCart); 
 router.post('/addNewAddress', userController.addNewAddress); 
 router.post("/placeOrder", verifyLogin.verifyLoginUser, userController.placeOrder);
 router.get('/orderSuccess', verifyLogin.verifyLoginUser,userController.orderSuccess);
 router.get('/orderDetails',userController.orderDetails);
-router.get('/viewWishlist',verifyLogin.verifyLoginUser,userController.viewWishlist)
-router.get('/wishList/:id',verifyLogin.verifyLoginUser,userController.addToWishlist)
+router.get('/viewWishlist',verifyLogin.verifyLoginUser,userController.viewWishlist);
+router.get('/wishList/:id',verifyLogin.verifyLoginUser,userController.addToWishlist);
+router.post('/removeFromWishlist',userController.removeFromWishlist)
 router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct);
-router.post('/cancelOrder/:id',verifyLogin.verifyLoginUser,userController.cancelOrder);
+router.get('/cancelOrder/:id',verifyLogin.verifyLoginUser,userController.cancelOrder);
 module.exports=router;
-  
+   

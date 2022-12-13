@@ -14,20 +14,7 @@ function removeProduct(cartId, productId) {
     });
   }
 
-  function removeWishlistProduct(cartId, productId) {
-    console.log("man")
-    $.ajax({
-      url: "/removeProduct",
-      data: {
-        cart: cartId,
-        product: productId,
-      },
-      method: "post",
-      success: () => { 
-        location.reload();
-      },
-    });
-  }
+
   function changeQuantity(cartId, productId, count) {
 			
     let quantity = parseInt(document.getElementById(productId).innerHTML);
@@ -43,6 +30,27 @@ function removeProduct(cartId, productId) {
         document.getElementById(productId).innerHTML = quantity + count;
         // document.getElementsByClassName('subtotal').innerText=response.sum
         location.reload();
+      },
+    });
+  }
+  
+  function removeFromWishlist(wishlistId, productId) {
+    $.ajax({
+      url: "/removeFromWishlist",
+      method: "post",
+      data: {
+        wishlistId,
+        productId,
+      },
+      success: () => {
+        Swal.fire({
+          title: "Product removed from wishlist!",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(function () {
+          location.reload();
+        })
+  
       },
     });
   }
