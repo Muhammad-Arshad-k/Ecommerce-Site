@@ -54,7 +54,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="/shop">
               <figure class="image">
                 <img src="images/women.jpg" alt="" class="img-fluid">
               </figure>
@@ -65,9 +65,9 @@
             </a>
           </div>
           <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="/shop">
               <figure class="image">
-                <img src="images/children.jpg" alt="" class="img-fluid">
+                <img src="images/children.jpg" alt="/shop" class="img-fluid">
               </figure>
               <div class="text">
                 <span class="text-uppercase">Collections</span>
@@ -76,7 +76,7 @@
             </a>
           </div>
           <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="/">
               <figure class="image">
                 <img src="images/men.jpg" alt="" class="img-fluid">
               </figure>
@@ -103,11 +103,11 @@
               <% product.forEach((products)=>{ %>
               <div class="item">
                 <div class="block-4 text-center" >
-                  <figure class="block-4-image">
-                    <img src="/adminImages/<%=products?._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;">
+                  <figure class="block-4-image"><a href="/productView/<%=products._id%>">
+                    <img src="/adminImages/<%=products?._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="#"><%= products?.product_name %></a></h3>
+                    <h3><a href="/productView/<%=products._id%>"><%= products?.name %></a></h3>
                     <p class="mb-0"><%= products?.description%></p>
                     <p class="text-primary font-weight-bold"><%= products?.price%></p>
                   </div>

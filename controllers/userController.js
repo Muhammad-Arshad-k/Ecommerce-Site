@@ -7,6 +7,7 @@ const cart = require('../model/cartSchema');
 const wishlist= require('../model/wishlistSchema')
 const order   = require('../model/orderSchema');
 const moment  = require("moment");
+const categories = require('../model/categorySchema')
 
 let name;
 let email;
@@ -108,10 +109,10 @@ module.exports = {
             req.session.user = req.body.email
             res.redirect('/')
           } else {
-            res.render('user/login', { invalid: 'Invalid Email or Password' })
+            res.render('user/login', { invalid: 'Invalid username or Password' })
           }
         } else {
-          res.render('user/login', { invalid: 'user blocked' })
+          res.render('user/login', { invalid: 'You are blocked' })
         }
       } else {
         res.render('user/login', { invalid: 'Invalid Email Or Password' })
@@ -125,18 +126,22 @@ module.exports = {
     res.redirect("/")
   }, 
   getShopPage: async (req, res) => {
-    let product = await products.find({ delete: false })
-    console.log
-    res.render('user/shop', { product, countInCart,countInWishlist  })
+    let category = await categories.find();
+    let product = await products.find({ delete: false }).populate('category')
+
+    res.render('user/shop', { product, countInCart,countInWishlist,category})
+  },
+  getCategoryWisePage: async (req,res)=>{
+    const id = req.params.id;
+    const category  = await categories.find({category:id,delete:false}).populate('category')
+    res.render('user/shop',{product,countInCart,category,countInWishlist});
   },
   getProductViewPage: async (req, res) => {
     let id = req.params.id
-    let product = await products.findOne({ _id: id })
+    let product = await products.findOne({ _id: id }).populate('category')
     res.render('user/productView', { product: product, countInCart,countInWishlist  });
   },
-  getCart:(req,res)=>{
-    res.render("user/cart",{countInWishlist })
-  },
+
   addToCart: async (req, res) => {
     const id = req.params.id;
     const objId = mongoose.Types.ObjectId(id);
@@ -194,7 +199,6 @@ module.exports = {
 
     const session = req.session.user;
     const userData = await users.findOne({ email: session });
-
     const productData = await cart
       .aggregate([
         {
@@ -597,12 +601,12 @@ module.exports = {
   viewProfile:async (req,res)=>{
    const session = req.session.user;
    let userData = await users.findOne({email:session})
-   res.render('user/profile',{userData,countInCart})
+   res.render('user/profile',{userData,countInCart,countInWishlist})
   },
   editProfile:async(req,res)=>{
     const session = req.session.user;
    let userData = await users.findOne({email:session})
-    res.render('user/editProfile',{userData,countInCart})
+    res.render('user/editProfile',{userData,countInCart,countInWishlist})
   },
   postEditProfile: async (req, res) => {
     const session = req.session.user;

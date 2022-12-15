@@ -10,11 +10,9 @@
 
     <div class="site-section">
       <div class="container">
-        <% if (locals.countInCart>0) { %>
-         
-        
+        <% if (locals.countInCart!==0) { %>      
         <div class="row mb-5">
-          <form class="col-md-12" method="post">
+          
             <div class="site-blocks-table">
               <table class="table ">
                 <thead>
@@ -22,6 +20,7 @@
                     <th class="product-thumbnail">Image</th>
                     <th class="product-name">Product</th>
                     <th class="product-price">Price</th>
+                    <th class="product-size">Size</th>
                     <th class="product-quantity">Quantity</th>
                     <th class="product-total">Total</th>
                     <th class="product-remove">Remove</th>
@@ -36,6 +35,7 @@
                     <td class="product-name">
                       <h2 class="h5 text-black"><%= product.productDetail.name %></h2>
                     </td>
+                    <td><%= product.productDetail.price%> ₹</td>
                     <td><%= product.productDetail.price%> ₹</td>
                     <td  class="product-quantity">
                       <div class="input-group  " style="max-width: 120px; ">
@@ -69,14 +69,13 @@
                 </tbody>
               </table>
             </div>
-          </form>
+         
         </div>
         <% } else { %>
-          <h2 class="text-center text-danger">Oops!<br>
-            Your Cart is empty </h3>
-          <div class=""><img src="/adminImages/emptyCart.png" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
-           
-         
+          <h2 class="text-center text-danger">Oops!</h2><br>
+          <h3 class="text-center text-danger">Your Cart is empty </h3>
+          <div class=""><img src="/adminImages/emptyCart.png" style="width: 30%;height: 30%;" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
+            
           </div>
         <% } %>
         <div class="row">
@@ -102,6 +101,7 @@
               </div>
             </div>
           </div>
+          <% if (locals.countInCart!==0) { %> 
           <div class="col-md-6 pl-5">
             <div class="row justify-content-end">
               <div class="col-md-7">
@@ -115,19 +115,23 @@
                     <span class="text-black">Subtotal</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <% if(locals.sum){%>
+                    <% if(locals.sum!==0){%>
                     <strong class="text-black"><%=sum%> ₹</strong>
+                    <% } else { %>
+                      <strong class="text-black">0 ₹</strong>
                     <%}%>
                   </div> 
                 </div>
-    
                 <div class="row mb-5">
                   <div class="col-md-6">
                     <span class="text-black">Shipping Charge</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <% if(locals.sum) {%>
-                    <strong class="text-black"><%=0%> ₹</strong>
+                    <% if(locals.sum<1000) {%>
+                    <strong class="text-black">40 ₹</strong>
+                    <small class="text-danger">shop for 1000 or more to get free delivery</small>
+                    <% } else { %>
+                      <strong class="text-black">0₹(free delivery)</strong>
                     <%}%>
                   </div>
                 </div>
@@ -136,20 +140,24 @@
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <% if(locals.sum) {%>
-                    <strong class="text-black"><%=sum%> ₹</strong>
+                    <% if(locals.sum<1000) {%>
+                      
+                    <strong class="text-black"><%=sum+40%> ₹</strong>
+                    <% } else { %>
+                      <strong class="text-black"><%=sum%> ₹</strong>
                     <%}%>
                   </div>
                 </div>
-
+                     
                 <div class="row">
                   <div class="col-md-12">
                     <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/checkout'">Proceed To Checkout</button>
                   </div>
-                </div>
+                </div>              
               </div>
             </div>
           </div>
+          <% } %>
         </div>
       </div>
     </div>

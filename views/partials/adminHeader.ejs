@@ -6,100 +6,60 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <!-- CSS only -->
-  <link rel="stylesheet" href="/https://fonts.googleapis.com/css?family=Mukta:300,400,700">
-  <link rel="stylesheet" href="/fonts/icomoon/style.css">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
 <body>
-
-    <div class="site-wrap">
-      <header class="site-navbar" role="banner">
-        <div class="site-navbar-top">
-          <div class="container">
-            <div class="row align-items-center">
-                
-              <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-                <form action="" class="site-block-top-search">
-                  <span class="icon icon-search2"></span>            
-                  <input type="text" class="form-control border-0" placeholder="Search">
-                </form>
-              </div>
-  
-              <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
-                <div class="site-logo">
-                  <a href="/index" class="js-logo-clone">Wonder Shoes Admin</a>
-                </div>
-              </div>
-  
-              <div class="col-6 col-md-4 order-3 order-md-3 text-right">
-                <div class="site-top-icons">
-                  <ul>
-                    <li><a href="#"><span class="icon icon-person"></li>
-                    <li><a href="#"><span class="icon icon-heart-o"></a></li>
-                    <li>
-                      <a href="/cart" class="site-cart">
-                        <span class="icon icon-shopping_cart"></span>
-                        <span class="count">2</span>
-                      </a>
-                    </li> 
-                    <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                  </ul>
-                </div> 
-              </div>
-  
-            </div>
-          </div>
-        </div> 
-        <nav class="site-navigation text-right text-md-center" role="navigation">
-          <div class="container">
-                <ul class="site-menu js-clone-nav d-none d-md-block">
-                    <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link align-middle px-0">
-                          <img src="/adminImages/dashboard.jpg" alt="" style="width: 1rem" /><span
-                            class="ms-1 d-none d-sm-inline">Dashboard</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="admin/order" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/order.jpg" alt="" style="width: 1rem" />
-                          <span class="ms-1 d-none d-sm-inline">Order</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/category" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/category.jpg" alt="" style="width: 1rem" />
-                          <span class="ms-1 d-none d-sm-inline">category</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/productdetails" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/product.png" alt="" style="width: 1rem" /><span
-                            class="ms-1 d-none d-sm-inline">Products</span></a>
-                      </li>
-                      <li>
-                        <a href="/admin/addProduct" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/add..jpg" alt="" style="width: 1rem" />
-                          <span class="ms-1 d-none d-sm-inline">Add Products</span></a>
-                      </li>
-                      <li>
-                        <a href="/admin/userDetails" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/users.webp" alt="" style="width: 1rem" />
-                          <span class="ms-1 d-none d-sm-inline">Users</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/adminLogout" class="nav-link px-0 align-middle">
-                          <img src="/adminImages/logout.webp" alt="" style="width: 1rem" />
-                          <span class="ms-1 d-none d-sm-inline">Logout</span>
-                        </a>
-                      </li>
-                </ul>
-          </div>
-        </nav>
-    </div>
-      </header>
+  <div class="container-fluid" >
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #9e9e9e">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5 d-none d-sm-inline">Admin</span>
+          </a>
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+              <a href="/admin/dashbord" class="nav-link align-middle px-0">
+                <img src="/adminimages/pic1.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/order" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Order</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/category" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">category</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/productdetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic3.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/addProduct" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic4.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Add Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/userDetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic5.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Users</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/adminLogout" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic6.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Logout</span>
+              </a>
+            </li>
+          </ul>
+          <hr />
+        </div>
+      </div>
