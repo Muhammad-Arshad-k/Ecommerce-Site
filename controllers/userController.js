@@ -15,6 +15,7 @@ let phone;
 let password;
 let countInCart;
 let countInWishlist;
+let size;
 module.exports = {
 
   //to render the home page
@@ -128,12 +129,13 @@ module.exports = {
   getShopPage: async (req, res) => {
     let category = await categories.find();
     let product = await products.find({ delete: false }).populate('category')
-
+    console.log(products);
     res.render('user/shop', { product, countInCart,countInWishlist,category})
   },
   getCategoryWisePage: async (req,res)=>{
     const id = req.params.id;
-    const category  = await categories.find({category:id,delete:false}).populate('category')
+    const category  = await categories.find();
+    const product   = await products.find({category:id,delete:false}).populate('category')
     res.render('user/shop',{product,countInCart,category,countInWishlist});
   },
   getProductViewPage: async (req, res) => {
@@ -145,10 +147,12 @@ module.exports = {
   addToCart: async (req, res) => {
     const id = req.params.id;
     const objId = mongoose.Types.ObjectId(id);
-    const session = req.session.user;
-    let proObj = {
+    const session = req.session.user; 
+    size = req.body.size; 
+    console.log(size); 
+    let proObj = {  
       productId: objId,
-      quantity: 1,
+      quantity: 1,        
     }; 
     const userData = await users.findOne({ email: session });
     const userCart = await cart.findOne({ userId: userData._id });
@@ -166,7 +170,7 @@ module.exports = {
           { userId: userData._id, "product.productId": objId },
           { $inc: { "product.$.quantity": 1 } }
         );
-        res.redirect("/viewcart");
+        res.redirect("/viewcart"); 
       } else {
         cart
           .updateOne({ userId: userData._id }, { $push: { product: proObj } })
@@ -243,7 +247,7 @@ module.exports = {
     countInCart = productData.length;
     let id = req.params.id
     let product = await products.findOne({ _id: id })
-    res.render("user/cart", { productData, sum, countInCart,product:product ,countInWishlist });
+    res.render("user/cart", { productData, sum,size, countInCart,product:product ,countInWishlist });
 
 
   },

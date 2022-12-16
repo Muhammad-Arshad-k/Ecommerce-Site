@@ -11,10 +11,10 @@
   for
   <div class="site-section">
     <div class="container">
-      
+
       <div class="row">
         <div class="col-md-6">
-          <img src="/adminimages/<%=product._id%>.jpg" alt="Imageview" class="img-fluid">
+          <img src="/adminimages/<%=product._id%>.jpg" alt="Imageview" style="width:80%;height:85%;" class="img-fluid">
         </div>
 
         <div class="col-md-6">
@@ -28,43 +28,55 @@
           <p><strong class="text-primary h4">
               <%=product.price%>₹
             </strong></p>
-            <b>Select Size</b>
-          <div class="mb-1 d-flex">
-            <label for="option-sm" class="d-flex mr-3 mb-3">
-              <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio"  id="option-sm"
-                  name="shop-sizes"></span> <span class="d-inline-block text-black">6</span>
-            </label>
-            <label for="option-md" class="d-flex mr-3 mb-3">
-              <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md"
-                  name="shop-sizes"></span> <span class="d-inline-block text-black">7</span>
-            </label>
-            <label for="option-lg" class="d-flex mr-3 mb-3">
-              <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg"
-                  name="shop-sizes"></span> <span class="d-inline-block text-black">8</span>
-            </label>
-            <label for="option-xl" class="d-flex mr-3 mb-3">
-              <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl"
-                  name="shop-sizes"></span> <span class="d-inline-block text-black"> 9</span>
-            </label>
-            <label for="option-xl" class="d-flex mr-3 mb-3">
-              <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl"
-                  name="shop-sizes"></span> <span class="d-inline-block text-black">10</span>
-            </label>
-          </div>
-          
-    
+          <b>Select Size</b>
+          <form action="/cart/<%=product._id%>" method="post" >
+            <div class="mb-4 d-flex ">
+              <div class="custom-control custom-radio">
+                <input id="size6" name="size" type="radio" value="6"
+                  class="custom-control-input" checked required />
+                <label class="custom-control-label mr-2" for="size6">6</label>
+              </div>
 
-          <div class="row">
+              <div class="custom-control custom-radio">
+                <input id="size7" name="size" type="radio" value="7"
+                  class="custom-control-input" required />
+                <label class="custom-control-label mr-2" for="size7">7</label>
+              </div>
             
-              <button><a  href="/cart/<%=product._id%>" class="buy-now btn btn-sm btn-primary ">Add To Cart</a></button>
-              <p><a href="/wishlist/<%=product._id%>" class="icon icon-heart-o btn btn-link ml-2"><sub>+</sub></a></p>   
+                <div class="custom-control custom-radio">
+                  <input id="size8" name="size" type="radio" value="8"
+                    class="custom-control-input" checked required />
+                  <label class="custom-control-label mr-2" for="size6">8</label>
+                </div>
+  
+                <div class="custom-control custom-radio">
+                  <input id="size9" name="size" type="radio" value="9"
+                    class="custom-control-input" required />
+                  <label class="custom-control-label mr-2" for="size7">9</label>
+                </div>
+               
+                  <div class="custom-control custom-radio">
+                    <input id="size10" name="size" type="radio" value="10"
+                      class="custom-control-input" checked required />
+                    <label class="custom-control-label mr-2" for="size6">10</label>
+                  </div>
+                 
+            </div>
+            <div class="row">
+            <button type="submit" value="submit"><a class="buy-now btn btn-sm btn-primary ">Add To Cart</a></button>
+            <p><a href="/wishlist/<%=product._id%>" class="icon icon-heart-o btn btn-link ml-2"><sub>+</sub></a></p>
           </div>
+          </form>
+
+
+
+         
         </div>
       </div>
-      
+
     </div>
   </div>
 
 
 
-  <%-include("../partials/footer")%>
+  <%-include("../partials/footer")%>  

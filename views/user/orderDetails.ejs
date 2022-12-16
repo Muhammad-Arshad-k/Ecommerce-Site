@@ -151,7 +151,7 @@
               <td>
 
                 <!-- Button trigger modal -->
-                <% if(order.orderStatus=='placed' || order.orderStatus=='pending' || order.orderStatus=='Shipped' ){ %>
+                <% if(order.orderStatus=='placed' || order.orderStatus=='pending' || order.orderStatus=='Shipped'||order.orderStatus=='outForDelivery' ){ %>
                   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#exampleModal-<%=order._id%>">
                     Cancel

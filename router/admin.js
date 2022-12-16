@@ -21,7 +21,8 @@ adminRouter.get('/category',verifylogin.verifyLoginAdmin,adminController.getCate
 adminRouter.post('/addCategory',verifylogin.verifyLoginAdmin,adminController.addCategory)
 adminRouter.post('/editCategory/:id',verifylogin.verifyLoginAdmin,adminController.editCategory)
 adminRouter.get('/deleteCategory/:id',verifylogin.verifyLoginAdmin,adminController.deleteCategory)
-
-
+adminRouter.get('/order',verifylogin.verifyLoginAdmin,adminController.getOrders)
+adminRouter.get('/orderedProduct/:id',verifylogin.verifyLoginAdmin,adminController.getOrderedProduct)
+adminRouter.post('/orderStatuschange/:id',adminController.orderStatusChanging)
 
 module.exports= adminRouter  

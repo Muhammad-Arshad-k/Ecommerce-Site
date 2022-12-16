@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    category:{
+    category:{ 
         type:mongoose.SchemaTypes.ObjectId,
         ref:'categories'
     },
@@ -30,3 +30,4 @@ const productSchema = new mongoose.Schema({
 
 
 module.exports = mongoose.model('products',productSchema)
+   
