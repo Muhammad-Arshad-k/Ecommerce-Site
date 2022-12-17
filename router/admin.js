@@ -1,6 +1,7 @@
 const express = require('express');
 const adminRouter = express();
 const adminController = require('../controllers/adminController');
+const userController = require('../controllers/userController');
 const verifylogin     = require('../middlewares/session');
  
 adminRouter.get('/',adminController.getAdminLogin)
@@ -21,6 +22,12 @@ adminRouter.get('/category',verifylogin.verifyLoginAdmin,adminController.getCate
 adminRouter.post('/addCategory',verifylogin.verifyLoginAdmin,adminController.addCategory)
 adminRouter.post('/editCategory/:id',verifylogin.verifyLoginAdmin,adminController.editCategory)
 adminRouter.get('/deleteCategory/:id',verifylogin.verifyLoginAdmin,adminController.deleteCategory)
+adminRouter.get('/restoreCategory/:id',verifylogin.verifyLoginAdmin,adminController.restoreCategory)
+adminRouter.get('/coupon',verifylogin.verifyLoginAdmin,adminController.getCouponPage);
+adminRouter.post('/addCoupon',verifylogin.verifyLoginAdmin,adminController.addCoupon);
+adminRouter.post('/editCoupon/:id',verifylogin.verifyLoginAdmin,adminController.editCoupon);
+adminRouter.get('/deleteCoupon/:id',verifylogin.verifyLoginAdmin,adminController.deleteCoupon);
+adminRouter.get('/restoreCoupon/:id',verifylogin.verifyLoginAdmin,adminController.restoreCoupon)
 adminRouter.get('/order',verifylogin.verifyLoginAdmin,adminController.getOrders)
 adminRouter.get('/orderedProduct/:id',verifylogin.verifyLoginAdmin,adminController.getOrderedProduct)
 adminRouter.post('/orderStatuschange/:id',adminController.orderStatusChanging)

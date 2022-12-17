@@ -26,8 +26,6 @@ router.get('/viewProfile',verifyLogin.verifyLoginUser,userController.viewProfile
 router.get('/editProfile',userController.editProfile);
 router.post('/postEditProfile',userController.postEditProfile) 
 router.get('/contact',userController.getContact);
-router.get('/productView', verifyLogin.verifyLoginUser,userController.getShopSingle);
-// router.get('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart);
 router.post('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart);
 router.get('/viewcart',verifyLogin.verifyLoginUser,userController.viewCart); 
 router.post('/addNewAddress', userController.addNewAddress); 
@@ -37,7 +35,6 @@ router.get('/viewWishlist',verifyLogin.verifyLoginUser,userController.viewWishli
 router.get('/wishList/:id',verifyLogin.verifyLoginUser,userController.addToWishlist);
 router.post('/removeFromWishlist', verifyLogin.verifyLoginUser,userController.removeFromWishlist);
 router.get('/checkout',userController.getCheckOutPage);
-router.get('/orderSuccess',userController.getThankyou);
 router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct);
 router.get('/cancelOrder/:id',verifyLogin.verifyLoginUser,userController.cancelOrder);
 module.exports=router;   

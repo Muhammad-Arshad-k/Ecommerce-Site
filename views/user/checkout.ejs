@@ -146,42 +146,17 @@
                       </option>
                       <% }) %>
                   </select>
-
+                  <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                  Add new address
+                </button>
                 </div>
 
                 <div class="row mb-5">
                   <div class="col-md-12">
                     <h2 class="h3 mb-3 text-black">Your Order</h2>
                     <div class="p-3 p-lg-5 border">
-                      <table class="table site-block-order-table mb-5">
-                        <thead>
-                          <th>Product</th>
-                          <th>Total</th>
-                        </thead>
-                        <tbody>
-                          <% productData.forEach(function(product) {%>
-                            <tr>
-                              <td>
-                                <%=product.productDetail.name%> <strong class="mx-2">x</strong>
-                                  <%= product.productQuantity%>
-                              </td>
-                              <% var a=product.productDetail.price%>
-                                <% var b=product.productQuantity%>
-                                  <% var c=a*b %>
-                                    <td>
-                                      <%= c %>₹
-                                    </td>
-                            </tr>
-                            <% }) %>
-                              <tr>
-                                <td><b>Total Amout</b></td>
-                                <td>
-                                  <%=sum%> ₹
-                                </td>
 
-                              </tr>
-                        </tbody>
-                      </table>
                       <h2>Payment</h2>
                       <form id="placeOrder">
                         <label class="col-xs-3 control-label">Select Shipping Address</label>
@@ -206,7 +181,41 @@
                               class="custom-control-input" required />
                             <label class="custom-control-label" for="debit">Online</label>
                           </div>
-
+                          <div class="form-group mt-4">
+                            <label for="coupon text-light" style="text-decoration: underline;"><h4>Apply Coupon</h4></label>
+                            <input type="text" class="form-control" id="coupon" aria-describedby="coupon" placeholder="Enter Coupon" name="coupon">
+                            <small id="coupon" class="text-info">enter coupon code to avail offers</small>
+                          </div>
+                          <h5 class="text-muted mt-4">Amount to be paid</h5> 
+                          <table class="table site-block-order-table mb-5">
+                            <thead>
+                              <th>Product</th>
+                              <th>Total</th>
+                            </thead>
+                            <tbody>
+                              <% productData.forEach(function(product) {%>
+                                <tr>
+                                  <td>
+                                    <%=product.productDetail.name%> <strong class="mx-2">x</strong>
+                                      <%= product.productQuantity%>
+                                  </td>
+                                  <% var a=product.productDetail.price%>
+                                    <% var b=product.productQuantity%>
+                                      <% var c=a*b %>
+                                        <td>
+                                          <%= c %>₹
+                                        </td>
+                                </tr>
+                                <% }) %>
+                                  <tr>
+                                    <td><b>Total Amout</b></td>
+                                    <td>
+                                      <%=sum%> ₹
+                                    </td>
+    
+                                  </tr>
+                            </tbody>
+                          </table>
                           <!-- <button type="submit" value="submit" class="btn btn-secondary mt-5">
 										Place order
 									</button> -->
@@ -217,10 +226,7 @@
 
                         </div>
                       </form>
-                      <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                        Add new address
-                      </button>
+                   
                     </div>
                   </div>
 
@@ -293,7 +299,7 @@
                       </div>
                     </div>
                   </div>
-
+                    
                 </div>
               </div>
             </div>

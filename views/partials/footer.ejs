@@ -93,13 +93,37 @@ $("#placeOrder").submit((e) => {
     url: '/placeOrder',
     method: 'post',
     data: $('#placeOrder').serialize(),
-    success: (resposnse) => {
-      if (resposnse.success) {
-        location.href = "/orderSuccess";
-      }else{
-        location.href = "/viewCart";
+    success: (response) => {
+      if(response.couponDeleted){
+        Swal.fire({
+        title:"coupon no longer exist!",
+        icon:"error",
+        confirmButtonText:"continue",
+      }).then(function(){
+        location.reload();
+      });
+      }else if(response.coupon){
+        Swal.fire({
+								title: "Coupon already used!",
+								icon: "error",
+								confirmButtonText: "continue",
+							}).then(function () {
+								location.reload()
+							});
+						} else if(response.invalid){
+               Swal.fire({
+                title:"Invalid Coupon",
+                icon:"error",
+                confirmButtonText:"continue",
+               }).then(function(){
+                location.reload();
+               });
+            }else if(response.success){
+              location.href = "/orderSuccess"
+            }else{
+              location.href = "/viewCart";
+            }
       }
-    }
   })
 }) 
  </script>
