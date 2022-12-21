@@ -139,10 +139,10 @@
     </div>
     <div class="site-section block-8">
       <div class="container">
-        <% bannerData.forEach(element=> { %>
+        <% if(bannerData.length){ %> 
         <div class="row justify-content-center  mb-5">       
           <div class="col-md-7 site-section-heading text-center pt-4">            
-            <h2><%=element.offerType %> </h2>
+            <h2><%=bannerData[0].offerType%> </h2>
           </div>
         </div>
         <div class="row align-items-center">
@@ -150,13 +150,13 @@
             <a href="#"><img src="images/blog_1.jpg" alt="Image placeholder" class="img-fluid rounded"></a>
           </div>
           <div class="col-md-12 col-lg-5 text-center pl-md-5">
-            <h2><a href="#">Use Code <%=element.couponName %></a></h2>
+            <h2><a href="#">Use Code <%=bannerData[0].couponName%></a></h2>
             <p class="post-meta mb-4">offer <a href="#">valid till</a> <span class="block-8-sep">&bullet;</span> february 3, 2022</p>
-            <p><%=element.bannerText %></p>
-            <p><a href="#" class="btn btn-primary btn-sm">Shop Now</a></p>
+            <p><%=bannerData[0].bannerText%></p>
+            <p><a href="/shop" class="btn btn-primary btn-sm">Shop Now</a></p>
           </div>
         </div>
-        <% }) %>
+        <% } %>
       </div>
     </div>
     <%-include("../partials/footer")-%>

@@ -523,10 +523,10 @@ module.exports = {
           } else {
             var dis = sum * discount[0].discount;
             if (dis > discount[0].maxLimit) {
-              total = sum - dis;
+              total = sum - maxLimit;
               console.log(total)
             } else {
-              total = dis; 
+              total =sum- dis; 
             }
           }
           const orderData = await order.create({
