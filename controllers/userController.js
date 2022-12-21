@@ -9,21 +9,17 @@ const order = require('../model/orderSchema');
 const moment = require("moment");
 const categories = require('../model/categorySchema');
 const coupon = require("../model/couponSchema");
-const { promiseImpl } = require('ejs');
+const promise = require('promise');
+const otp     = require('../model/otpSchema');
+const banner  = require('../model/bannerSchema');
 
 
-
-
-let name;
-let email;
-let phone;
-let password;
 let countInCart;
 let countInWishlist;
 let size;
 
 function checkCoupon(data, id) {
-  return new promiseImpl((resolve) => {
+  return new promise((resolve) => {
     if (data.coupon) {
       coupon.find(
         { couponName: data.coupon },
@@ -36,8 +32,8 @@ function checkCoupon(data, id) {
         } else {
           coupon.find({ couponName: data.coupon }).then((discount) => {
             resolve(discount);
-          })
-        }
+          }) 
+        } 
       })
 
     } else {
@@ -50,15 +46,22 @@ module.exports = {
 
   //to render the home page
   getHome: async (req, res) => {
-    const session = req.session.user;
-    // console.log(session);
-    let product = await products.find({ delete: false }).populate('category')
-    if (session) {
-      customer = true;
-    } else {
-      customer = false;
+    try{
+      let session = req.session.user;
+      let product = await products.find({ delete: false }).populate('category')
+      let bannerData= await banner.find().sort({createdAt:-1}).limit(1);
+      if (session) {
+        customer = true;
+      } else {
+        customer = false;
+      }
+      // const bannerData= await banner.find().sort({createdAt:-1}).limit(1);
+      res.render('user/index', { customer, product, countInCart, countInWishlist,bannerData});
+
+    }catch{
+      console.error()
+      res.render('user/error')
     }
-    res.render('user/index', { customer, product, countInCart, countInWishlist })
   },
   //to render the login page
   getLogin: (req, res) => {
@@ -70,64 +73,79 @@ module.exports = {
   },
 
   postSignup: async (req, res) => {
-
-    const spassword = await bcrypt.hash(req.body.password, 10)
-
-    name = req.body.name,
-      email = req.body.email,
-      phone = req.body.phone,
-      password = spassword
-
-    const mailDetails = {
-      from: 'wonderstories8935@gmail.com',
-      to: email,
-      subject: 'Otp for Wonder shoes signup',
-      html: `<p>Your OTP for registering in wonderShoes  is ${mailer.OTP}</p>`
-
-    }
-
-    const userExists = await users.findOne({ email: email });
-    if (userExists) {
-      res.render('user/signup', { invalid: "User Already Exist" });
-    } else {
-      mailer.mailTransporter.sendMail(mailDetails, function (err) {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log("otp generated");
-          res.redirect('/otpPage');
-        }
-
-
-      })
-    }
+ try{
+  const spassword = await bcrypt.hash(req.body.password, 10)
+  const  name = req.body.name;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const password = spassword;
+  console.log()
+  const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
+  const mailDetails = {
+    from: process.env.MAILER_EMAIL,
+    to: email,
+    subject: 'Otp for Wonder shoes signup',
+    html: `<p>Your OTP for registering in wonderShoes  is ${OTP}</p>`
 
   }
+  const userExists = await users.findOne({ email: email });
+  if (userExists) {
+    res.render('user/signup', { invalid: "User Already Exist" });
+  }else{
+    const User ={
+      name:name,
+      email:email,
+      phone:phone,
+      password:password
+    }
+    mailer.mailTransporter.sendMail(mailDetails, function (err, data) {
+      if (err) {
+        console.log(err)
+      } else {
+        otp.create({
+          email: email,
+          otp: OTP
+        }).then((otpActive) => {
+          console.log(otpActive);
+          res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`)
+        })
+      }
+    })
+  }
+} catch {
+  console.error()
+  // res.render('user/500')
+}
 
+}
   ,
   getOtpPage: (req, res) => {
-    res.render('user/otp');
+    let userData = req.query
+    res.render('user/otp',{userData});
   },
   postOtp: async (req, res) => {
-    const otp = req.body.otp;
-
-    if (mailer.OTP === otp) {
-      try {
-        const user = await users.create({
-          name: name,
-          email: email,
-          phone: phone,
-          password: password
+   try{
+      const body = req.body
+      const sendOtp = await otp.findOne({email:body.email})
+      console.log(sendOtp.otp)
+      console.log(body.otp);
+      if(sendOtp.otp==body.otp){
+        res.redirect('/login');
+        const User = await users.create({
+          name:body.name,
+          email:body.email,
+          phone:body.phone,
+          password:body.password
         })
-
-      } catch (error) {
-        console.log(error)
+      }else{
+        res.render('user/otp',{invalid:'invalid otp'});
       }
-      res.redirect('/login')
-    } else {
-      res.render('user/otp', { invalid: "invalid OTP" })
+    }catch{
+        console.error()
+        res.render('user/error')
     }
-  },
+
+  }, 
   postLogin: async (req, res) => {
     const email = req.body.email
     const password = req.body.password
@@ -505,9 +523,10 @@ module.exports = {
           } else {
             var dis = sum * discount[0].discount;
             if (dis > discount[0].maxLimit) {
-              total = sum - 100;
+              total = sum - dis;
+              console.log(total)
             } else {
-              total = dis;
+              total = dis; 
             }
           }
           const orderData = await order.create({
@@ -531,7 +550,7 @@ module.exports = {
               { couponName: data.coupon },
               { $push: { users: { userId: objId } } }
             ).then((updated) => {
-              // console.log(updated)
+              console.log(updated)
             })
           } else {
             let options = {
@@ -788,11 +807,11 @@ module.exports = {
     res.render('user/about', { countInWishlist, countInCart });
   },
 
-  getThankyou: (req, res) => {
-    res.render('user/thankyou');
-  },
   getContact: (req, res) => {
     res.render('user/contact', { countInWishlist, countInCart });
   }
 }
+
+
+
 

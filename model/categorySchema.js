@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const categorySchema =new mongoose.Schema({
+const Schema = mongoose.Schema
+const categorySchema =new Schema({
     category_name:{
         type:String,
         uppercase:true,
@@ -9,5 +10,5 @@ const categorySchema =new mongoose.Schema({
         type:Boolean,
         default:false,
     }
-})
+}) 
 module.exports = mongoose.model('categories',categorySchema);

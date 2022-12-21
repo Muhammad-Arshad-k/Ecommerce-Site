@@ -7,7 +7,6 @@ const confirmPassword = document.getElementById('confirmPassword');
 
 form.addEventListener('submit',(e)=>{
     let flag = 0;
-
     const nameValue = nam.value.trim();
     const emailValue   = email.value.trim();
     const  phoneValue = phone.value.trim();
@@ -17,7 +16,7 @@ form.addEventListener('submit',(e)=>{
     if(nameValue ===""){
         setError(nam,"Field Cannot be empty","nameError");
         flag = 1;
-    }else if(!onlyLetter(nameValue)){
+    }else if(!isNaN(Number(nameValue))){
         setError(nam,"Name should only contain alphabets",'nameError');
         flag = 1;
     }else{
@@ -44,7 +43,7 @@ form.addEventListener('submit',(e)=>{
     }else{
         setSuccess(phone,'phoneError')
         flag =0
-    }
+    } 
     if(passwordValue === ""){
         setError(password,'Field Cannot be empty','passwordError')
         flag = 1
@@ -58,16 +57,7 @@ form.addEventListener('submit',(e)=>{
         setSuccess(password,'passwordError')
            flag = 0 
     }
-    if(confirmPasswordValue === ""){
-        setError(confirmPassword,'Field cannot be empty','confirmPasswordError')
-        flag = 1
-    }else if(confirmPasswordValue.length < 5){
-        setError(password,'password must contain minimum 5 charecters','confirmPasswordError')
-        flag = 1
-    }else if(confirmPasswordValue.length > 8){
-        setError(password,'password should only contain maximum of 7 charecters','confirmPasswordError')
-        flag = 1
-    }else if(confirmPasswordValue !== passwordValue ){
+    if(confirmPasswordValue !== passwordValue ){
         setError(confirmPassword,'Password do not match','confirmPasswordError')
         flag = 1 
     }else{

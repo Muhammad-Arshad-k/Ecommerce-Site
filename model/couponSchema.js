@@ -25,7 +25,7 @@ const couponSchema = new Schema(
             type:String,
             required:true
         },
-        delete:{
+        delete:{  
             type:Boolean,
             default:false
         },
@@ -42,5 +42,5 @@ const couponSchema = new Schema(
         timestamps:true,
     }
 );
-const coupon = mongoose.model("coupen",couponSchema);
+const coupon = mongoose.model("coupon",couponSchema);
 module.exports = coupon;

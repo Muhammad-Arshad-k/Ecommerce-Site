@@ -23,30 +23,30 @@
   
                   <div class="form-outline mb-4">
                     <label class="form-label" for="name" >Your Name</label>
-                    <input type="text" id="name" name="name" class="form-control form-control-lg" />
+                    <input type="text" id="name" name="name" class="form-control form-control-lg" required/>
                     <small id="nameError" class="text-danger err"></small>
                   </div>
   
                   <div class="form-outline mb-4">
                     <label class="form-label" for="email">Your Email</label>
-                    <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                    <input type="email" id="email" name="email" class="form-control form-control-lg"  required/>
                     <small id="emailError" class="text-danger err"></small>
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="phone">Phone</label>
-                    <input type="text" id="phone" name="phone" class="form-control form-control-lg" />
+                    <input type="text" id="phone" name="phone" class="form-control form-control-lg"  required/>
                     <small id="phoneError" class="text-danger err"></small>
                   </div>
   
                   <div class="form-outline mb-4">
                     <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                    <input type="password" id="password" name="password" class="form-control form-control-lg"  required/>
                     <small id="passwordError" class="text-danger err"></small>
                   </div>
   
                   <div class="form-outline mb-4">
                    <label class="form-label" for="confirmPassword" >confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control-lg" />
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control-lg"  required/>
                     <small id="confirmPasswordError" class="text-danger err"></small>
                   </div>
                   <% if(locals.invalid){%>
@@ -76,6 +76,6 @@
     </div>
   </section>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="/public/js/signupValid.js"></script>
+  <script src="/js/signupValid.js"></script>
 </body>
 </html>

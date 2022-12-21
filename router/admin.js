@@ -1,11 +1,11 @@
 const express = require('express');
 const adminRouter = express();
 const adminController = require('../controllers/adminController');
-const userController = require('../controllers/userController');
 const verifylogin     = require('../middlewares/session');
  
 adminRouter.get('/',adminController.getAdminLogin)
 adminRouter.get('/home',verifylogin.verifyLoginAdmin,adminController.getAdminHome)
+adminRouter.get('/dashboard',verifylogin.verifyLoginAdmin,adminController.getDashboard)
 adminRouter.post('/login',adminController.postAdminLogin)
 adminRouter.get('/adminLogout',adminController.adminLogout)
 adminRouter.get('/userDetails',verifylogin.verifyLoginAdmin,adminController.getAllUsers)
@@ -23,6 +23,11 @@ adminRouter.post('/addCategory',verifylogin.verifyLoginAdmin,adminController.add
 adminRouter.post('/editCategory/:id',verifylogin.verifyLoginAdmin,adminController.editCategory)
 adminRouter.get('/deleteCategory/:id',verifylogin.verifyLoginAdmin,adminController.deleteCategory)
 adminRouter.get('/restoreCategory/:id',verifylogin.verifyLoginAdmin,adminController.restoreCategory)
+adminRouter.get('/getBanner',verifylogin.verifyLoginAdmin,adminController.getBannerPage)
+adminRouter.post('/addBanner',verifylogin.verifyLoginAdmin,adminController.addBanner)
+adminRouter.post('/editBanner/:id',verifylogin.verifyLoginAdmin,adminController.editBanner)
+adminRouter.get('/deleteBanner/:id',verifylogin.verifyLoginAdmin,adminController.deleteBanner);
+adminRouter.get('/restoreBanner/:id',verifylogin.verifyLoginAdmin,adminController.restoreBanner);
 adminRouter.get('/coupon',verifylogin.verifyLoginAdmin,adminController.getCouponPage);
 adminRouter.post('/addCoupon',verifylogin.verifyLoginAdmin,adminController.addCoupon);
 adminRouter.post('/editCoupon/:id',verifylogin.verifyLoginAdmin,adminController.editCoupon);
@@ -32,4 +37,4 @@ adminRouter.get('/order',verifylogin.verifyLoginAdmin,adminController.getOrders)
 adminRouter.get('/orderedProduct/:id',verifylogin.verifyLoginAdmin,adminController.getOrderedProduct)
 adminRouter.post('/orderStatuschange/:id',adminController.orderStatusChanging)
 
-module.exports= adminRouter  
+module.exports= adminRouter;

@@ -35,7 +35,8 @@ router.get('/viewWishlist',verifyLogin.verifyLoginUser,userController.viewWishli
 router.get('/wishList/:id',verifyLogin.verifyLoginUser,userController.addToWishlist);
 router.post('/removeFromWishlist', verifyLogin.verifyLoginUser,userController.removeFromWishlist);
 router.get('/checkout',userController.getCheckOutPage);
+router.get('/orderSuccess',userController.orderSuccess)
 router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct);
 router.get('/cancelOrder/:id',verifyLogin.verifyLoginUser,userController.cancelOrder);
-module.exports=router;   
+module.exports=router;    
       

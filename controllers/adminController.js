@@ -4,18 +4,74 @@ const categories = require('../model/categorySchema');
 const order = require('../model/orderSchema');
 const mongoose = require("mongoose");
 const coupon   = require('../model/couponSchema');
+const banner   = require('../model/bannerSchema');
 const moment = require("moment");
 moment().format();
 
 
 module.exports = {
-    getAdminLogin: (req, res) => {
+    getAdminLogin:async (req, res) => {
         const admin = req.session.admin
         if (admin) {
-            res.render('admin/home')
+            const orderData = await order.find({orderStatus:{$ne:"cancelled"}});
+            const totalRevenue = orderData.reduce((accumulator,object)=>{
+                return accumulator+object.totalAmount;
+            },0);
+            const todayOrder = await order.find({
+                orderDate:moment().format("MMM Do YY"),
+            });
+            const todayRevenue = todayOrder.reduce((accumulator,object)=>{
+                return accumulator +object.totalAmount;
+            },0);
+            const start = moment().startOf("month");
+            const end   = moment().endOf("month");
+            const oneMonthOrder = await order.find({orderStatus:{$ne:"cancelled"},createdAt:{$gte:start,$lte:end},})
+            const monthlyRevenue = oneMonthOrder.reduce((accumulator,object)=>{
+                return accumulator+object.totalAmount
+            },0);
+            const allOrders = orderData.length;
+            const pending   = await order.find({orderStatus:"pending"}).count();
+            const shipped = await order.find({orderStatus:"shipped"}).count();
+            const delivered = await order.find({orderStatus:"delivered"}).count();
+            const cancelled = await order.find({orderStatus:"cancelled"}).count();
+            const cod    = await order.find({paymentStatus:"COD"}).count();
+            const online    = await order.find({paymentStatus:"online"}).count();
+            const activeUsers = await user.find({isBlocked:false}).count();
+            const product     = await  products.find({delete:false}).count();
+            const allOrderDetails= await order.find({paymentStatus:"paid"},{paymentStatus:"delivered"});
+            res.render('admin/home',{todayRevenue,totalRevenue,allOrders,pending,shipped,delivered,cancelled,cod,online,monthlyRevenue,activeUsers,product})
         } else {
             res.render('admin/login')
         }
+    },
+    getDashboard:async (req,res)=>{
+        const orderData = await order.find({orderStatus:{$ne:"cancelled"}});
+        const totalRevenue = orderData.reduce((accumulator,object)=>{
+            return accumulator+object.totalAmount;
+        },0);
+        const todayOrder = await order.find({
+            orderDate:moment().format("MMM Do YY"),
+        });
+        const todayRevenue = todayOrder.reduce((accumulator,object)=>{
+            return accumulator +object.totalAmount;
+        },0);
+        const start = moment().startOf("month");
+        const end   = moment().endOf("month");
+        const oneMonthOrder = await order.find({orderStatus:{$ne:"cancelled"},createdAt:{$gte:start,$lte:end},})
+        const monthlyRevenue = oneMonthOrder.reduce((accumulator,object)=>{
+            return accumulator+object.totalAmount
+        },0);
+        const allOrders = orderData.length;
+        const pending   = await order.find({orderStatus:"pending"}).count();
+        const shipped = await order.find({orderStatus:"shipped"}).count();
+        const delivered = await order.find({orderStatus:"delivered"}).count();
+        const cancelled = await order.find({orderStatus:"cancelled"}).count();
+        const cod    = await order.find({paymentStatus:"COD"}).count();
+        const online    = await order.find({paymentStatus:"online"}).count();
+        const activeUsers = await user.find({isBlocked:false}).count();
+        const product     = await  products.find({delete:false}).count();
+       
+        res.render('admin/dashboard',{cod,online,pending,shipped,delivered,cancelled,totalRevenue,allOrders,activeUsers,product ,monthlyRevenue,todayRevenue });
     },
     getAdminHome: (req, res) => {
         const admin = req.session.admin
@@ -193,6 +249,74 @@ module.exports = {
         const id = req.params.id
         await categories.updateOne({_id:id},{$set:{delete:false}})
         res.redirect('/admin/category');
+    },
+    getBannerPage:async(req,res)=>{
+        const bannerData = await banner.find()
+        console.log(bannerData);
+        res.render('admin/banner',{bannerData});
+    },
+    addBanner:async(req,res)=>{
+        try{
+            await banner.create({
+                offerType:req.body.offerType,
+                bannerText:req.body.bannerText,
+                couponName:req.body.couponName,  
+            }).then((data)=>{
+                res.redirect('/admin/getBanner')
+            })
+        }catch{
+           console.error();
+           res.render('user/error');
+        }
+
+    },
+    editBanner:async(req,res)=>{ 
+      try{
+        const id = req.params.id;
+        const editedData = req.body;
+         console.log(editedData)
+        await banner.updateOne(
+            {_id:id},
+            {
+                offerType:editedData.offerType,
+                bannerText:editedData.bannerText,
+                couponName:editedData.couponName,    
+            }
+            ).then(()=>{
+                res.redirect('/admin/getBanner');
+            })
+      }catch{
+        console.error()
+        res.render("user/error")
+      }
+    },
+    deleteBanner:async(req,res)=>{
+      try{
+        const id= req.params.id;
+        await banner.updateOne(
+            {_id:id},
+            {isDeleted:true}
+        ).then(()=>{
+            res.redirect('/admin/getBanner');
+        })
+      }catch{
+        console.error();
+        res.render("user/error");
+      }
+    },
+    restoreBanner:async(req,res)=>{
+      try{
+        const id = req.params.id;
+        await banner.updateOne(
+            {_id:id},
+            {isDeleted:false}
+        ).then(()=>{
+            res.redirect('/admin/getBanner');
+        })
+      }catch{
+        console.error()
+        res.redirect("/admin/getBanner");
+      }
     },
     getCouponPage:async (req,res)=>{
       const couponData = await coupon.find()
