@@ -36,7 +36,7 @@ const couponSchema = new Schema(
                 }
             }
         ]
-
+  
     },
     {
         timestamps:true,
