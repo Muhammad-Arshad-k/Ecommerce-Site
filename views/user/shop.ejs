@@ -96,18 +96,19 @@
           <div class="border p-4 rounded mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
             <ul class="list-unstyled mb-0">
-              <li><a href="/shop">All</a></li>
+              <li class="mb-1" ><a href="/shop" class="d-flex"><span>All</span><span class="text-black ml-auto"><%=productCount%></span></a></li>
               <% category.forEach((categories)=>{ %>
                 
                 <li class="mb-1"><a href="/category/<%=categories._id%>" class="d-flex"><span>
                       <%=categories.category_name %>
-                    </span> <span class="text-black ml-auto">(2,220)</span></a></li>
+                      
+                    </span> <span class="text-black ml-auto"></span></a></li>
+                
                 <% }) %>
-
             </ul>
           </div>
 
-          <div class="border p-4 rounded mb-4">
+          <!-- <div class="border p-4 rounded mb-4">
             <div class="mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
               <div id="slider-range" class="border-primary"></div>
@@ -147,7 +148,7 @@
               </a>
             </div>
 
-          </div>
+          </div> -->
         </div>
       </div>
 

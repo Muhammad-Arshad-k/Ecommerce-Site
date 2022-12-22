@@ -10,8 +10,8 @@ const moment = require("moment");
 const categories = require('../model/categorySchema');
 const coupon = require("../model/couponSchema");
 const promise = require('promise');
-const otp     = require('../model/otpSchema');
-const banner  = require('../model/bannerSchema');
+const otp = require('../model/otpSchema');
+const banner = require('../model/bannerSchema');
 
 
 let countInCart;
@@ -32,8 +32,8 @@ function checkCoupon(data, id) {
         } else {
           coupon.find({ couponName: data.coupon }).then((discount) => {
             resolve(discount);
-          }) 
-        } 
+          })
+        }
       })
 
     } else {
@@ -46,19 +46,19 @@ module.exports = {
 
   //to render the home page
   getHome: async (req, res) => {
-    try{
+    try {
       let session = req.session.user;
       let product = await products.find({ delete: false }).populate('category')
-      let bannerData= await banner.find().sort({createdAt:-1}).limit(1);
+      let bannerData = await banner.find().sort({ createdAt: -1 }).limit(1);
       if (session) {
         customer = true;
       } else {
         customer = false;
       }
       // const bannerData= await banner.find().sort({createdAt:-1}).limit(1);
-      res.render('user/index', { customer, product, countInCart, countInWishlist,bannerData});
+      res.render('user/index', { customer, product, countInCart, countInWishlist, bannerData });
 
-    }catch{
+    } catch {
       console.error()
       res.render('user/error')
     }
@@ -73,79 +73,99 @@ module.exports = {
   },
 
   postSignup: async (req, res) => {
- try{
-  const spassword = await bcrypt.hash(req.body.password, 10)
-  const  name = req.body.name;
-  const email = req.body.email;
-  const phone = req.body.phone;
-  const password = spassword;
-  console.log()
-  const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
-  const mailDetails = {
-    from: process.env.MAILER_EMAIL,
-    to: email,
-    subject: 'Otp for Wonder shoes signup',
-    html: `<p>Your OTP for registering in wonderShoes  is ${OTP}</p>`
+    try {
+      const spassword = await bcrypt.hash(req.body.password, 10)
+      const name = req.body.name;
+      const email = req.body.email;
+      const phone = req.body.phone;
+      const password = spassword;
+      const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
+      const botp = await bcrypt.hash(OTP, 10)
+      const mailDetails = {
+        from: process.env.MAILER_EMAIL,
+        to: email,
+        subject: 'Otp for Wonder shoes signup',
+        html: `<p>Your OTP for registering in wonderShoes  is ${OTP}</p>`
 
-  }
-  const userExists = await users.findOne({ email: email });
-  if (userExists) {
-    res.render('user/signup', { invalid: "User Already Exist" });
-  }else{
-    const User ={
-      name:name,
-      email:email,
-      phone:phone,
-      password:password
-    }
-    mailer.mailTransporter.sendMail(mailDetails, function (err, data) {
-      if (err) {
-        console.log(err)
+      }
+      const userExists = await users.findOne({ email: email });
+
+      if (userExists) {
+        res.render('user/signup', { invalid: "User Already Exist" });
       } else {
-        otp.create({
+        const User = {
+          name: name,
           email: email,
-          otp: OTP
-        }).then((otpActive) => {
-          console.log(otpActive);
-          res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`)
+          phone: phone,
+          password: password
+        }
+        mailer.mailTransporter.sendMail(mailDetails, async function (err) {
+
+
+          if (err) {
+            console.log(err)
+
+          } else {
+            const userAlreadyExist = await otp.findOne({ email: email })
+            if (userAlreadyExist) {
+              otp.deleteOne({ email: email }).then(() => {
+                otp.create({
+                  email: email,
+                  otp: botp
+                }).then(() => {
+                  res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`)
+
+                })
+              })
+            } else {
+              otp.create({
+                email: email,
+                otp: botp
+              }).then(() => {
+                res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`)
+              });
+            }
+          }
         })
       }
-    })
-  }
-} catch {
-  console.error()
-  // res.render('user/500')
-}
+    } catch {
+      console.error()
+      res.render('user/500');
+    }
 
-}
+  }
   ,
   getOtpPage: (req, res) => {
     let userData = req.query
-    res.render('user/otp',{userData});
+    res.render('user/otp', { userData });
   },
   postOtp: async (req, res) => {
-   try{
-      const body = req.body
-      const sendOtp = await otp.findOne({email:body.email})
-      console.log(sendOtp.otp)
-      console.log(body.otp);
-      if(sendOtp.otp==body.otp){
+    let userData = req.query
+    try {
+      const body = req.body;
+      const cotp = body.otp;
+      const sendOtp = await otp.findOne({ email: body.email })
+      const validOtp = await bcrypt.compare(cotp, sendOtp.otp)
+      if (validOtp) {
         res.redirect('/login');
         const User = await users.create({
-          name:body.name,
-          email:body.email,
-          phone:body.phone,
-          password:body.password
+          name: body.name,
+          email: body.email,
+          phone: body.phone,
+          password: body.password
         })
-      }else{
-        res.render('user/otp',{invalid:'invalid otp'});
+      } else {
+        res.render('user/otp', { invalid: 'invalid otp', userData });
       }
-    }catch{
-        console.error()
-        res.render('user/error')
+
+
+
+    } catch {
+      console.error()
+      res.render('user/error')
     }
 
-  }, 
+  },
   postLogin: async (req, res) => {
     const email = req.body.email
     const password = req.body.password
@@ -177,13 +197,17 @@ module.exports = {
   getShopPage: async (req, res) => {
     let category = await categories.find();
     let product = await products.find({ delete: false }).populate('category');
-    res.render('user/shop', { product, countInCart, countInWishlist, category })
+    let productCount = await products.find({delete:false}).count();
+    console.log(productCount)
+    res.render('user/shop', { product, countInCart, countInWishlist, category,productCount });
   },
   getCategoryWisePage: async (req, res) => {
     const id = req.params.id;
     const category = await categories.find();
-    const product = await products.find({ category: id, delete: false }).populate('category')
-    res.render('user/shop', { product, countInCart, category, countInWishlist });
+    const product = await products.find({ category: id, delete: false }).populate('category');
+    const productCount = await products.find({ category: id, delete: false }).populate('category').count();
+    console.log(productCount);
+    res.render('user/shop', { product, countInCart, category, countInWishlist,productCount });
   },
   getProductViewPage: async (req, res) => {
     let id = req.params.id
@@ -393,7 +417,6 @@ module.exports = {
       productId: objId,
     };
     const userData = await users.findOne({ email: session });
-    // console.log(session);
     const userWishlist = await wishlist.findOne({ userId: userData._id });
     if (userWishlist) {
 
@@ -461,7 +484,7 @@ module.exports = {
         couponDeleted = true
       }
     } else {
-      invalid = 0; 
+      invalid = 0;
     }
 
     if (invalid == null) {
@@ -519,21 +542,21 @@ module.exports = {
             return accumulator + object.productPrice;
           }, 0);
           if (discount == false) {
-            var total = sum;
+            var total = sum; 
           } else {
             var dis = sum * discount[0].discount;
             if (dis > discount[0].maxLimit) {
-              total = sum - maxLimit;
+              total = sum - discount[0].maxLimit;
               console.log(total)
             } else {
-              total =sum- dis; 
+              total = sum - dis;
             }
           }
           const orderData = await order.create({
             userId: userData._id,
             name: userData.name,
             phoneNumber: userData.phone,
-            address: req.body.address,
+            address: req.body.address, 
             orderItems: cartData.product,
             totalAmount: total,
             paymentMethod: req.body.paymentMethod,
@@ -581,7 +604,7 @@ module.exports = {
       }
     }
   },
-  
+
   orderSuccess: async (req, res) => {
     res.render('user/orderSuccess', { countInCart, countInWishlist })
   },
@@ -746,7 +769,7 @@ module.exports = {
         {
           $unwind: "$product",
         },
-        { 
+        {
           $project: {
             productItem: "$product.productId",
             productQuantity: "$product.quantity",
