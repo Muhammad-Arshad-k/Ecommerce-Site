@@ -400,6 +400,7 @@ module.exports = {
     },
     getOrderedProduct:async (req,res)=>{
         const id = req.params.id;
+      
         const objId = mongoose.Types.ObjectId(id)
         const productData = await order.aggregate([
             {
@@ -463,5 +464,46 @@ module.exports = {
             }
         )
         res.redirect("/admin/order");
+    },
+    salesReport:async(req,res)=>{
+        try{
+            const allsalesReport= await order.find({
+                paymentStatus:"paid",
+                orderStatus:"delivered",
+            });
+            res.render("admin/salesReport",{allsalesReport});
+        }catch{
+            res.render('user/error');
+        }
+    },
+    dailyReport:async(req,res)=>{
+        try{
+            const allsalesReport= await order.find({
+              $and:[
+                {paymentStatus:"paid",orderStatus:"delivered"},
+                {
+                    orderDate:moment().format("MMM Do YY")
+                }
+              ]
+            })
+            res.render("admin/salesReport",{allsalesReport});
+        }catch{
+            res.render('user/500')
+        }
+    },
+    monthlyReport:async (req,res)=>{
+        try{
+            var d = new Date();
+            d.setMonth(d.getMonth() - 1);
+            const allsalesReport= await order.find({
+                  $and:[
+                    {paymentStatus:"paid",orderStatus:"delivered"},
+                    {created:{$gte:d}}
+                  ],
+            })            
+            res.render('admin/salesReport',{allsalesReport});
+        }catch{
+            res.render('admin/error');
+        }
     }
 }   

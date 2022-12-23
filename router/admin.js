@@ -36,5 +36,7 @@ adminRouter.get('/restoreCoupon/:id',verifylogin.verifyLoginAdmin,adminControlle
 adminRouter.get('/order',verifylogin.verifyLoginAdmin,adminController.getOrders)
 adminRouter.get('/orderedProduct/:id',verifylogin.verifyLoginAdmin,adminController.getOrderedProduct)
 adminRouter.post('/orderStatuschange/:id',adminController.orderStatusChanging)
-
+adminRouter.get('/salesReport',verifylogin.verifyLoginAdmin,adminController.salesReport);
+adminRouter.get('/dailyReport',verifylogin.verifyLoginAdmin,adminController.dailyReport);
+adminRouter.get('/monthlyReport',verifylogin.verifyLoginAdmin,adminController.monthlyReport)
 module.exports= adminRouter;

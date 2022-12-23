@@ -9,7 +9,7 @@ const order = require('../model/orderSchema');
 const moment = require("moment");
 const categories = require('../model/categorySchema');
 const coupon = require("../model/couponSchema");
-const promise = require('promise');
+const promise = require('promise'); 
 const otp = require('../model/otpSchema');
 const banner = require('../model/bannerSchema');
 
@@ -25,10 +25,8 @@ function checkCoupon(data, id) {
         { couponName: data.coupon },
         { users: { $elemMatch: { userId: id } } }
       ).then((exist) => {
-        // console.log(exist);
         if (exist[0].users.length) {
           resolve(true);
-          // console.log("exist" + exist[0].users.length)
         } else {
           coupon.find({ couponName: data.coupon }).then((discount) => {
             resolve(discount);
@@ -547,7 +545,7 @@ module.exports = {
             var dis = sum * discount[0].discount;
             if (dis > discount[0].maxLimit) {
               total = sum - discount[0].maxLimit;
-              console.log(total)
+    
             } else {
               total = sum - dis;
             }
@@ -668,7 +666,7 @@ module.exports = {
         },
         {
           $unwind: "$category_name"
-        }
+        } 
 
       ]);
     // console.log(productData);
@@ -811,7 +809,6 @@ module.exports = {
   addNewAddress: async (req, res) => {
     const session = req.session.user
     const addObj = {
-
       housename: req.body.housename,
       area: req.body.area,
       landmark: req.body.landmark,
@@ -819,17 +816,13 @@ module.exports = {
       state: req.body.state,
       postoffice: req.body.postoffice,
       pin: req.body.pin
-
     }
-
     await users.updateOne({ email: session }, { $push: { addressDetails: addObj } })
     res.redirect('/checkout')
   },
-
   getAbout: (req, res) => {
     res.render('user/about', { countInWishlist, countInCart });
   },
-
   getContact: (req, res) => {
     res.render('user/contact', { countInWishlist, countInCart });
   }
