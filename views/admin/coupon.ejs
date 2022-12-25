@@ -4,7 +4,7 @@
 
   <div class="col py-3">
 
-    <section>
+    <section class="p-5">
       <div class="container">
         <div class=" mt-100 mb-5 d-flex align-items-center justify-content-center">
           <h3 class="text-decoration-underline">Coupon management</h3>
@@ -48,14 +48,14 @@
 
         </div>
     </div>
-        <table class="table table-success table-striped" id="table">
+        <table class="table  table-striped" id="table">
           <thead>
             <tr>
               <th scope="col">No</th>
-              <th scope="col">Coupen</th>
+              <th scope="col">Coupon Code</th>
               <th scope="col">Expiry date</th>
               <th scope="col">Controlls</th>
-              
+              <th scope="col">remove</th>
 
             </tr>
           </thead>
@@ -88,7 +88,7 @@
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <form  action="/admin/editCoupon/<%= element._id %>" method="post">
@@ -182,7 +182,36 @@
                               </div>
                             </div>
                           </div>
-                  </td>
+                  </td>                 
+                  <td>
+                    <button type="button" class="btn btn-outline-danger border-0" data-bs-toggle="modal" data-bs-target="#exampleModaR-<%= element._id %>">
+                      <i class="material-symbols-outlined">
+                        delete_forever
+                      </i>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModaR-<%= element._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Remove Permenently?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                              data-bs-dismiss="modal">Close</button>
+                            <a href="/admin/removeCoupon/<%=element._id%>"><button type="button" class="btn btn-danger">Remove</button></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>                 
                 </tr>
                 <% count++ %>
                   <% }) %>
@@ -196,7 +225,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-  <!-- data table -->
-  <!--end data table -->
+    <script>
+      $("#menu-btn").click(function () {
+        $("#menu").toggleClass("active");
+      });
+    </script>
   </body>
   </html>

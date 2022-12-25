@@ -53,14 +53,14 @@
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="/productView/<%=products._id%>"><img style="width:300px; height:225px"
-                        src="/adminImages/<%=products._id%>.jpg" alt="Image placeholder" class="img-fluid"></a>
+                        src="/adminImages/<%=products._id%>.jpg" alt="Image placeholder" class="img-fluid  rounded  p1"></a>
                   </figure>
                   <div class="block-4-text ">
                     <h3><a href="/productView/<%=products._id%>">
                         <%= products.name %>
                       </a></h3>
                      <p class="">
-                      <%= products?.category.category_name %>
+                      <%= products?.category?.category_name %>
                     </p>
                     <p class="">
                       <%= products.description %>
@@ -68,8 +68,8 @@
                     <p class="text-primary font-weight-bold">
                       <%= products.price %>₹
                     </p>
-                    <a href="/productview/<%=products._id%>" class="btn btn-primary">Buy now</a>
-                    <a href="/wishlist/<%=products._id%>" class="icon icon-heart-o btn btn-info "><sub>+</sub></a>
+                    <a href="/productview/<%=products._id%>" class="btn btn-primary mb-3">Buy now</a>
+                    <a href="/wishlist/<%=products._id%>" class="icon icon-heart-o btn btn-info mb-3"><sub>+</sub></a>
                   </div>
                 </div>
               </div>

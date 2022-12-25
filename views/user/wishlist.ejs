@@ -1,10 +1,7 @@
-
-
-	<!-- footer -->
 	<%- include('../partials/header')%>
-	<div class="site-section">
+	<div class="site-section ">
 				
-		<div class="container">
+		<div class="container d-flex justify-content-center">
 			<% if (locals.countInWishlist>0) { %>
 		  <div class="row mb-5">
 			  <div class="site-blocks-table">
@@ -14,6 +11,7 @@
 					  <th scope="col" class="product-thumbnail">Image</th>
 					  <th scope="col" class="product-name">Product</th>
 					  <th scope="col" class="product-price">Price</th>
+					  <th scope="col" class="product-size">available sizes</th>
 					  <th scope="col" class="product-addCart">Add to Cart</th>
 					  <th scope="col" class="product-remove">Remove</th>
 					</tr>
@@ -22,16 +20,17 @@
 					<% wishlistData.forEach((product)=>{%>
 					<tr>
 					  <td class="product-thumbnail">
-						<a href="/shop"><img src="/adminImages/<%= product.productDetail._id %>.jpg" alt="Image" class="img-fluid"></a>
+						<a href="/shop"><img src="/adminImages/<%= product?.productDetail?._id %>.jpg" alt="Image" class="img-fluid"></a>
 					  </td>
 					  <td class="product-name">
-						<h2 class="h5 text-black"><%= product.productDetail.name %></h2>
+						<h2 class="h5 text-black"><%= product?.productDetail?.name %></h2>
 					  </td>
-					  <td><%= product.productDetail.price%> ₹</td>
-					  <td class="addToCart"><a style="color:#fff" class="btn btn-warning" href="/cart/<%= product.productDetail._id %> ">Add to Cart</a></td>
+					  <td><%= product?.productDetail?.price%> ₹</td>
+					  <td><%= product?.productDetail?.size%></td>
+					  <td class="addToCart"><a style="color:#fff" class="btn btn-primary" href="/productView/<%= product?.productDetail?._id %> ">shop Now</a></td>
 					  <td class="product-remove">
 					 <button class="btn btn-danger" style="color:#fff"
-					 onclick="removeFromWishlist('<%= product._id %>','<%= product.productDetail._id %>')">
+					 onclick="removeFromWishlist('<%= product._id %>','<%= product?.productDetail._id %>')">
 					 remove</button>
 					</td>
 					</tr>
@@ -41,10 +40,7 @@
 				  </tbody>
 				</table>
 			  </div>
-			  <div d-flex >
-				<a class="btn btn-primary " href="/shop">Back to shop</a>
-				
-			  </div>
+			  
 		  </div>
 		  <% } else { %>
 			
@@ -56,6 +52,7 @@
 			  
 		  <% } %>
 	   </div>
+	</div>
 		<!-- end wishlist -->
 	
 		<!-- footer -->

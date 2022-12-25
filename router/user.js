@@ -10,7 +10,11 @@ router.use(express.urlencoded({extended:true}));
 router.get('/',userController.getHome);
 router.get('/index',userController.getHome);
 router.get('/login',userController.getLogin);
-router.post('/login',userController.postLogin)
+router.post('/login',userController.postLogin);
+router.get('/forgotPassword',userController.forgotPassword)
+router.post('/forgotPassword',userController.postForgotPassword);
+router.post('/postForgotOtp',userController.postForgotOtp);
+router.post('/postChangePassword',userController.postChangePassword);
 router.get('/signup',userController.getSignup);
 router.post('/signup',userController.postSignup);
 router.get('/logout',userController.userLogout)
@@ -27,6 +31,7 @@ router.get('/editProfile',userController.editProfile);
 router.post('/postEditProfile',userController.postEditProfile) 
 router.get('/contact',userController.getContact);
 router.post('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart);
+router.get('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart)
 router.get('/viewcart',verifyLogin.verifyLoginUser,userController.viewCart); 
 router.post('/addNewAddress', userController.addNewAddress); 
 router.post("/placeOrder", verifyLogin.verifyLoginUser, userController.placeOrder);

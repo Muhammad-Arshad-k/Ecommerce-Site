@@ -1,111 +1,183 @@
-<%-include("../partials/adminHeader") %> 
-      <div class="col py-3">
+<%-include("../partials/adminHeader") %>
+  <div class="col py-3">
 
-        <section>
-        <div class="d-flex align-items-center justify-content-center">
-          <h1 class="text-decoration-underline">Product details</h1>
-        </div>
-        <div class="container mt-5 table-responsive"> 
+    <section  class="mt-2 p-5">
+      <div class="d-flex align-items-center justify-content-center">
+        <h1 class="text-decoration-underline">Product details</h1>
+      </div>
+      <div class="container mt-5 table-responsive">
         <table class="table mt-5" id="table">
           <thead>
             <tr>
               <th scope="col">No</th>
-              <th scope="col">Product</th>
+              <th scope="col">Product Name</th>
               <th scope="col">Price</th>
               <th scope="col">Category</th>
               <th scope="col">Description</th>
               <th scope="col">Stock</th>
+              <th scope="col">Size</th>
               <th scope="col">Image</th>
               <th scope="col">Actions</th>
-
             </tr>
           </thead>
           <tbody>
-           <% let count=1 %>
-           <% product.forEach((products)=> { %>
-            <tr>
-                <td>
-                <%=count %>
-                </td>
-                <td>
-                 <%=products.name %>
-                </td>
-                <td>
-                 <%=products.price%>
-                </td>
-                <td>
-                  <%=products.category.category_name%>
-                </td>
-                <td>
-                  <%=products.description%>
-                </td>
-                <td>
-                  <%=products.stock%>
-                </td>
-                <td><img style="width:50px; height:50px" src="/adminImages/<%=products._id%>.jpg" alt=""></td>
-                <td>
-                  <a href="/admin/editProduct/<%=products._id%>" class="btn btn-success">Edit</a>
-                  <!-- Button trigger modal -->
-                  <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal-<%=products._id%>">
-                    Delete
-                  </button> -->
-                   <% if(products.delete===false) { %>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#exampleModal-<%=products._id%>">
-                      Delete
-                    </button>
-                    <% }else{ %>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal-<%=products._id%>">
-                        Restore
-                      </button>
-                      <%}%>
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal-<%=products._id%>" tabindex="-1"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel>">Delete confirmation</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <% if(products.delete === false){ %>
-                        <div class="modal-body">
-                          Are you sure you want to delete <%=products.name%>?
-                        </div>
-                       <% } else {%>
-                        <div class="modal-body">
-                          Are you sure you want to restore <%=products.name%>?
-                        </div>
-                        <%}%>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <% if(products.delete === false) {%>
-                          <a href="/admin/deleteproduct/<%=products._id%>"><button type="button"
-                              class="btn btn-danger">Delete</button></a>
-                              <% }else{ %>
-                                <a href="/admin/restoreProduct/<%=products._id%>"><button type="button"
-                                    class="btn btn-success">Restore</button></a>
-                                <%}%>  
+            <% let count=1 %>
+              <% product.forEach((products)=> { %>
+                <tr>
+                  <td>
+                    <%=count %>
+                  </td>
+                  <td>
+                    <%=products.name %>
+                  </td>
+                  <td>
+                    <%=products.price%>
+                  </td>
+                  <td>
+                    <%=products?.category?.category_name%>
+                  </td>
+                  <td>
+                    <%=products.description%>
+                  </td>
+                  <td>
+                    <%=products.stock%>
+                  </td>
+                  <td>
+                    <div class="modal fade" id="s-<%= products._id %>Modal" aria-hidden="true"
+                      aria-labelledby="s-<%=products._id %>ModalToggleLabel" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="s-<%= products._id %>ModalToggleLabel">Size</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div>
+                              <%= products.size %>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#add-<%= products._id %>ModalToggle2"
+                              data-bs-toggle="modal" data-bs-dismiss="modal">Add</button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                    <div class="modal fade" id="add-<%= products._id %>ModalToggle2" aria-hidden="true"
+                      aria-labelledby="add-<%= products._id %>ModalToggleLabel2" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="add-<%= products._id %>ModalToggleLabel2">Add</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <input class="form-control" id="size-input<%= products._id %>" type="number">
+                            
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary " data-bs-target="#s-<%= products._id %>Modal"
+                              data-bs-toggle="modal" data-bs-dismiss="modal">Back</button>
+                            <button class="btn btn-success " type="button"
+                              onclick="addsize('<%= products._id %>')">Submit</button>
+                           
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a class="btn btn-sm btn-outline-info" data-bs-toggle="modal" href="#s-<%= products._id %>Modal"
+                      role="button">Size</a>
+                  </td>
+                  <td><img style="width:50px; height:50px" src="/adminImages/<%=products._id%>.jpg" alt=""></td>
+                  <td>
+                    <a href="/admin/editProduct/<%=products._id%>" class="btn btn-outline-warning">Edit</a>
+                    
+                    <% if(products.delete===false) { %>
+                      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal-<%=products._id%>">
+                        Delete
+                      </button>
+                      <% }else{ %>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                          data-bs-target="#exampleModal-<%=products._id%>">
+                          Restore
+                        </button>
+                        <%}%>
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal-<%=products._id%>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel>">Delete confirmation</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <% if(products.delete===false){ %>
+                                  <div class="modal-body">
+                                    Are you sure you want to delete <%=products.name%>?
+                                  </div>
+                                  <% } else {%>
+                                    <div class="modal-body">
+                                      Are you sure you want to restore <%=products.name%>?
+                                    </div>
+                                    <%}%>
+                                      <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary"
+                                          data-bs-dismiss="modal">Close</button>
+                                        <% if(products.delete===false) {%>
+                                          <a href="/admin/deleteproduct/<%=products._id%>"><button type="button"
+                                              class="btn btn-outline-danger">Delete</button></a>
+                                          <% }else{ %>
+                                            <a href="/admin/restoreProduct/<%=products._id%>"><button type="button"
+                                               class="btn btn-outline-success">Restore</button></a>
+                                    <%}%>
+                               </div>
+                           </div>
+                          </div>
+                      </div>
                   </td>
                 </tr>
                 <% count++ %>
-                <% })%>
+                  <% })%>
           </tbody>
         </table>
-        </div>
-      </section>
       </div>
-    </div>
+    </section>
+    <script>
+      $("#menu-btn").click(function () {
+        $("#menu").toggleClass("active");
+      });
+      $(document).ready(function () {
+        $('#ptable').DataTable();
+      });
+      function addsize(id) {
+        const size = document.getElementById('size-input' + id).value;
+        $.ajax({
+          url: '/admin/addSize',
+          data: {
+            size,
+            product: id,
+          },
+          method: 'post',
+          success: (res) => {
+            // document.getElementById('quantity').innerText = Number(qty) + Number(count);
+            location.reload();
+            // $('#quantity').load(`${document.URL} #quantity`);
+          },
+        });
+      }
+    </script>
+  </div>
+  </div>
   </div>
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-</body>
-</html>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+  </body>
+
+  </html>

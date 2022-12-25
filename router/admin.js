@@ -12,6 +12,7 @@ adminRouter.get('/userDetails',verifylogin.verifyLoginAdmin,adminController.getA
 adminRouter.get('/blockUser/:id',verifylogin.verifyLoginAdmin,adminController.blockUser)
 adminRouter.get('/unblockUser/:id',verifylogin.verifyLoginAdmin,adminController.unblockUser)
 adminRouter.get('/addProduct',verifylogin.verifyLoginAdmin,adminController.addProduct)
+adminRouter.post('/addSize',verifylogin.verifyLoginAdmin,adminController.addSize);
 adminRouter.post('/postProduct',verifylogin.verifyLoginAdmin,adminController.postProduct)
 adminRouter.get('/productDetails',verifylogin.verifyLoginAdmin,adminController.productDetails)
 adminRouter.get('/editProduct/:id',verifylogin.verifyLoginAdmin,adminController.editProduct)
@@ -32,7 +33,8 @@ adminRouter.get('/coupon',verifylogin.verifyLoginAdmin,adminController.getCoupon
 adminRouter.post('/addCoupon',verifylogin.verifyLoginAdmin,adminController.addCoupon);
 adminRouter.post('/editCoupon/:id',verifylogin.verifyLoginAdmin,adminController.editCoupon);
 adminRouter.get('/deleteCoupon/:id',verifylogin.verifyLoginAdmin,adminController.deleteCoupon);
-adminRouter.get('/restoreCoupon/:id',verifylogin.verifyLoginAdmin,adminController.restoreCoupon)
+adminRouter.get('/restoreCoupon/:id',verifylogin.verifyLoginAdmin,adminController.restoreCoupon);
+adminRouter.get('/removeCoupon/:id',verifylogin.verifyLoginAdmin,adminController.removeCoupon)
 adminRouter.get('/order',verifylogin.verifyLoginAdmin,adminController.getOrders)
 adminRouter.get('/orderedProduct/:id',verifylogin.verifyLoginAdmin,adminController.getOrderedProduct)
 adminRouter.post('/orderStatuschange/:id',adminController.orderStatusChanging)

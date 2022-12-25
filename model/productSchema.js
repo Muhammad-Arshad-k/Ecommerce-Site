@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
         type:mongoose.SchemaTypes.ObjectId,
         ref:'categories'
     },
+    size: [Number],
     description:{
         type:String,
         required:true
@@ -25,7 +26,9 @@ const productSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     }
-})
+},
+{ timestamps: true }
+)
 
 
 module.exports = mongoose.model('products',productSchema)

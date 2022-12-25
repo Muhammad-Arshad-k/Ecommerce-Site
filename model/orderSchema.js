@@ -29,7 +29,11 @@ const orderSchema = new Schema(
                 quantity:{
                     type:Number,
                     required:true
-                }
+                },
+                size: {
+                    type: Number,
+                    required: true,
+                },
             }
         ],
         totalAmount:{

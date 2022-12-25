@@ -1,6 +1,6 @@
 <%- include ("../partials/adminHeader") %> 
 
-  <div class="col py-3">
+  <div style="margin-top: 5rem;" class="col py-3">
     <div class="container mt-5">
       <div class="d-flex justify-content-center align-items-center">
         <h3>Sales report</h3>
@@ -115,7 +115,11 @@
     }
   </script>
 
-
+<script>
+  $("#menu-btn").click(function () {
+    $("#menu").toggleClass("active");
+  });
+</script>
 
   </body>
 

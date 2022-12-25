@@ -12,11 +12,14 @@ const wishlistSchema = new Schema(
         productId: {
           type: ObjectId,
           required: true,
-        },
+        }    
       },
     ],
   },
   
+  {
+    timestamps: true,
+},
 );
 
 const wishlist = mongoose.model("wishlist", wishlistSchema);

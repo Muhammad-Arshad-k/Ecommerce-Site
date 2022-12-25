@@ -102,7 +102,7 @@ module.exports = {
         await user.updateOne({ _id: id }, { $set: { isBlocked: true } }).then(() => {
             res.redirect("/admin/userDetails")
         })
-    },
+    },                  
     unblockUser: async (req, res) => {
         const id = req.params.id;
         await user.updateOne({ _id: id }, { $set: { isBlocked: false } }).then(() => {
@@ -122,7 +122,8 @@ module.exports = {
             price: req.body.price,
             category: categoryId,
             description: req.body.description,
-            stock: req.body.stock
+            stock: req.body.stock,
+            size:req.body.size
         })
         const productDetails = await product.save()
         if (productDetails) {
@@ -135,19 +136,28 @@ module.exports = {
                     console.log(err)
                 }
             })
-
         }
+    },
+    addSize:async(req,res)=>{
+     try{
+      const product = req.body.product;
+      const size    = req.body.size;
+      const productId= mongoose.Types.ObjectId(product);    
+      await products.findOneAndUpdate({_id:productId},{ $push: { size: size} });
+      res.redirect('/admin/productDetails')
+     }catch(error){
+        res.redirect('user/error');
+     }
     },
     productDetails: async (req, res) => {
         const admin = req.session.admin
         if (admin) {
-            const product = await products.find().populate('category')
+            const product = await products.find().populate('category');
             res.render('admin/productDetails', { product })
         }
     },         
     editProduct: async (req, res) => { 
         const id = req.params.id;
-
         const category = await categories.find()
         const productData = await products.findOne({ _id: id })
         res.render('admin/editProduct', { productData, category })
@@ -191,13 +201,10 @@ module.exports = {
     },
     getCategory: async (req, res) => {
         const category = await categories.find();
-
-        const categoryExist = req.session.categoryExist
+        const categoryExist = req.session.categoryExist 
         req.session.categoryExist = ""
-
         const editCategoryExist = req.session.editCategoryExist
         req.session.editCategoryExist = ""
-
         res.render('admin/category', { category, categoryExist, editCategoryExist });
     },
     addCategory: async (req, res) => {
@@ -238,11 +245,11 @@ module.exports = {
         } else {
             res.redirect('/admin/category')
         }
-    }
+    }                      
     ,
     deleteCategory: async (req, res) => {
-        const id = req.params.id
-        await categories.updateOne({ _id: id },{$set:{delete:true}})
+        const id = req.params.id;
+        await categories.updateOne({ _id: id },{$set:{delete:true}}) 
         res.redirect('/admin/category')
     },
     restoreCategory:async (req,res)=>{
@@ -252,7 +259,6 @@ module.exports = {
     },
     getBannerPage:async(req,res)=>{
         const bannerData = await banner.find()
-        console.log(bannerData);
         res.render('admin/banner',{bannerData});
     },
     addBanner:async(req,res)=>{
@@ -274,7 +280,6 @@ module.exports = {
       try{
         const id = req.params.id;
         const editedData = req.body;
-         console.log(editedData)
         await banner.updateOne(
             {_id:id},
             {
@@ -352,6 +357,11 @@ module.exports = {
         await coupon.updateOne({_id:id},{$set:{delete:false}});
         res.redirect("/admin/coupon");
     },
+    removeCoupon:async(req,res)=>{
+        const id = req.params.id;
+        await coupon.deleteOne({_id:id});
+        res.redirect("/admin/coupon");
+    },
     editCoupon:async(req,res)=>{
         try{ 
         const id = req.params.id;
@@ -393,7 +403,7 @@ module.exports = {
                 $sort:{
                     createdAt:-1
                 }
-            }
+            } 
         ]).then((orderDetails)=>{
             res.render("admin/orders",{orderDetails});
         })
@@ -413,7 +423,8 @@ module.exports = {
                 $project:{
                     productItem:"$orderItems.productId",
                     productQuantity:"$orderItems.quantity",
-                    address:1,
+                    productSize:"$orderItems.size",
+                    address:1, 
                     name:1,
                     phoneNumber:1  
                 }
@@ -430,6 +441,7 @@ module.exports = {
                 $project:{
                     productItem:1,
                     productQuantity:1,
+                    productSize:1, 
                     address:1,
                     name:1,
                     phoneNumber:1,

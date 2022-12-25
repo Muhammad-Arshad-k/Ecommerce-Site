@@ -4,11 +4,12 @@
 
 
 
-  <div class="col py-3">
+  <div style="margin-top: 5rem;"  class="col py-3">
 
     <div class="container">
-      <h2>Dashboard</h2>
-
+      <div class="justify-content-center">
+      <h2 >Dashboard</h2>
+      </div>
       <div class="d-flex align-items-center justify-content-between ">
 
         <div class="shadow p-3 mb-3  rounded bg-white" style="height: 90px;width: 325px;">
@@ -201,7 +202,11 @@
     });
   </script>
  
-
+ <script>
+  $("#menu-btn").click(function () {
+    $("#menu").toggleClass("active");
+  });
+</script>
 
   </body>
 
