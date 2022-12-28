@@ -12,7 +12,9 @@ const coupon = require("../model/couponSchema");
 const promise = require('promise'); 
 const otp = require('../model/otpSchema');
 const banner = require('../model/bannerSchema');
-
+const dotenv      = require("dotenv");
+dotenv .config(); 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 let countInCart;
 let countInWishlist;
@@ -215,7 +217,7 @@ module.exports = {
         })
       }) 
      }else{
-      res.render('user/forgotPassword',{error:"please enter a valid Email"})
+      res.render('user/forgotPassword',{error:"please enter a valid Email",userData})
      }
   },
   postForgotOtp:async (req,res)=>{
@@ -552,6 +554,7 @@ module.exports = {
       });
   },
   placeOrder: async (req, res) => {
+
     let invalid;
     let couponDeleted;
     const data = req.body;
@@ -648,15 +651,15 @@ module.exports = {
             orderDate: moment().format("MMM Do YY"),
             deliveryDate: moment().add(3, "days").format("MMM Do YY")
           })
-          const amount = orderData.totalAmount * 100
-          const orderId = orderData._id
-          const pId= mongoose.Types.ObjectId(orderData._id);
-          console.log(pId)
-          await cart.deleteOne({ userId: userData._id });
-          await products.updateOne(
-            { _id: pId},
-            { $inc: { "products.stock": -1 } }
-          )
+          // const amount = orderData.totalAmount * 100
+          // const orderId = orderData._id
+          // const pId= mongoose.Types.ObjectId(orderData._id);
+          // console.log(pId)
+          // await cart.deleteOne({ userId: userData._id });
+          // await products.updateOne(
+          //   { _id: pId},
+          //   { $inc: { "products.stock": -1 } }
+          // )
           // const stockDecrease= await cart
           // .aggregate([
           //   {
@@ -697,34 +700,39 @@ module.exports = {
           //   }
           // ])
           // .exec();
+          const orderId = orderData._id
+
           if (req.body.paymentMethod === "COD") {
-            res.json({ success: true });
-            coupon.updateOne(
-              { couponName: data.coupon },     
-              { $push: { users: { userId: objId } } }
-            ).then((updated) => {
-              console.log(updated)
-            })
+          await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})       
+          await cart.deleteOne({ userId: userData._id });
+
+          res.json({ success: true})
+          await coupon.updateOne(
+          {couponName:data.coupon},
+          {$push:{users: {userId : objId}}}
+         )
           } else {
-            let options = {
-              amount: amount,
-              currency: "INR",
-              receipt: " " + orderId,
-            };
-            // instance.orders.create(options, function (err, order) {
-            //   // console.log(order);
-            //   if (err) {
-            //     console.log(err);
-            //   } else {
-            //     res.json(order);
-            //     coupon.updateOne(
-            //       { couponName: data.coupon },
-            //       { $push: { users: { userId: objId } } }
-            //     ).then((updated) => {
-            //       console.log(updated)
-            //     })
-            //   }
-            // })            
+            const session = await stripe.checkout.sessions.create({ 
+              payment_method_types: ["card"], 
+              line_items:
+                productData.map((ele) => {
+                  return { 
+                    price_data: { 
+                      currency: "inr", 
+                      product_data: { 
+                        name: ele.productDetail.name, 
+                      }, 
+                      unit_amount:ele.productDetail.price * 100, 
+                    }, 
+                    quantity: ele.productQuantity, 
+                  }
+                }), 
+              mode: "payment", 
+              success_url: `${process.env.SERVER_URL}/orderSuccess`,
+              cancel_url: `${process.env.SERVER_URL}/checkout` 
+            });  
+            console.log(session);
+            res.json({ url: session.url})      
           }
 
         } else {
