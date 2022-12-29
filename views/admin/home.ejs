@@ -1,7 +1,14 @@
 <%- include ("../partials/adminHeaderNew") %> 
+<style>
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    margin-top: 0;
+}
+</style>
     
     <main>    
-      <div id="myCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+      <!-- <div id="myCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -49,8 +56,43 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
+      </div> -->
+      <div id="myCarousel" class="carousel slide mt-2 mb-5"  data-bs-ride="carousel">
+        <div class="carousel-indicators ">
+          <button  type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active border-0" aria-current="true" aria-label="Slide 1"></button>
+          <button  type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="border-0"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <svg class="bd-placeholder-img" width="100%" style="height: 600px;" height="100%" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid slice" focusable="false"><image class="img-fluid img-thumbnail position-absolute" href="adminImages/adminCarousel3.jpg" /></svg>
+            <div class="container">
+              <div class="carousel-caption text-start ">
+                <h1 class="text-warning">Dashboard</h1>
+                <p class="text-light">Some representative placeholder content for the first slide of the carousel.</p>
+                <p><a class="btn btn-lg btn-outline-light" href="/admin/dashboard">Dashboard</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" style="height: 600px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><image  class="img-fluid img-thumbnail position-absolute" href="adminImages/Home1.jpg"  /></svg>
+            <div class="container">
+              <div class="carousel-caption text-end">
+                <h1 class="text-danger">Add Products</h1>
+                <p class="text-light">Add Some Exclusive products! the Customers are waiting for the Stock</p>
+                <p><a class="btn btn-lg btn-outline-light" href="/admin/addProduct">Add Now</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button  class="carousel-control-prev bg-transparent border-0"  type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <!-- <span class="visually-hidden">Previous</span> -->
+        </button>
+        <button  class="carousel-control-next bg-transparent border-0" type="button"  data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <!-- <span class="visually-hidden">Next</span> -->
+        </button>
       </div>
-    
     
       <!-- Marketing messaging and featurettes
       ================================================== -->
