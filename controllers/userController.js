@@ -48,16 +48,14 @@ module.exports = {
   getHome: async (req, res) => {
     try {
       let session = req.session.user;
-      let productData = await products.find({ delete: false }).populate('category');
+      let product = await products.find({ delete: false }).populate('category');
       let bannerData = await banner.find().sort({ createdAt: -1 }).limit(1);
       if (session) {
         customer = true;
       } else {
         customer = false;
       }
-      
-      
-      res.render('user/index', { customer, productData, countInCart, countInWishlist, bannerData });
+      res.render('user/index', { customer, product, countInCart, countInWishlist, bannerData });
 
     } catch {
       console.error()
