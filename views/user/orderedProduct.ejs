@@ -37,7 +37,7 @@ padding-top: 15px;
             <div class="card-body p-5">
               <% productData.forEach((order)=>{ %>
               <p class="lead fw-bold " style="color: #f37a27;">Order Details</p>
-              <a href="/productview/<%= order.productDetail._id %>"><img style="height: 100px; width: 100px;" src="/adminimages/<%= order.productDetail._id %>.jpg"
+              <a href="/productview/<%= order.productDetail._id %>"><img style="height: 100px; width: 100px;" src="/adminImages/<%= order.productDetail._id %>.jpg"
                 class="img-fluid mb-3" alt="" /></a>
                 <div class="d-flex">
                   <h6><%= order.productDetail.name %></h6>
