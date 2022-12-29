@@ -48,15 +48,16 @@ module.exports = {
   getHome: async (req, res) => {
     try {
       let session = req.session.user;
-      let product = await products.find({ delete: false }).populate('category')
+      let productData = await products.find({ delete: false }).populate('category');
       let bannerData = await banner.find().sort({ createdAt: -1 }).limit(1);
       if (session) {
         customer = true;
       } else {
         customer = false;
       }
-      // const bannerData= await banner.find().sort({createdAt:-1}).limit(1);
-      res.render('user/index', { customer, product, countInCart, countInWishlist, bannerData });
+      
+      
+      res.render('user/index', { customer, productData, countInCart, countInWishlist, bannerData });
 
     } catch {
       console.error()
@@ -701,68 +702,18 @@ module.exports = {
             // orderStatus: status,
             orderDate: moment().format("MMM Do YY"),
             deliveryDate: moment().add(3, "days").format("MMM Do YY")
-          })
-          // const amount = orderData.totalAmount * 100
-          // const orderId = orderData._id
-          // const pId= mongoose.Types.ObjectId(orderData._id);
-          // console.log(pId)
-          // await cart.deleteOne({ userId: userData._id });
-          // await products.updateOne(
-          //   { _id: pId},
-          //   { $inc: { "products.stock": -1 } }
-          // )
-          // const stockDecrease= await cart
-          // .aggregate([
-          //   {
-          //     $match: { userId: userData.id },
-          //   },
-          //   {              
-          //     $unwind: "$product",
-          //   },
-          //   {
-          //     $project: {
-          //       productItem: "$product.productId",
-          //       productQuantity: "$product.quantity",
-          //       productSize:"$Product.size"
-          //     },
-          //   },
-          //   {
-          //     $lookup: {
-          //       from: "products",
-          //       localField: "productItem",
-          //       foreignField: "_id",
-          //       as: "productDetail",
-          //     },
-          //   },
-          //   {
-          //     $project: {
-          //       productItem: 1,
-          //       productQuantity: 1,
-          //       productSize:1,
-          //       productDetail: { $arrayElemAt: ["$productDetail", 0] },
-          //     },
-          //   },
-          //   {
-          //     $addFields: {
-          //       productPrice: {
-          //         $multiply: ["$productQuantity", "$productDetail.price"]
-          //       }
-          //     }
-          //   }
-          // ])
-          // .exec();
+          });
+         
           const orderId = orderData._id
-
-          if (req.body.paymentMethod === "COD") {
+          
+          if (req.body.paymentMethod === "COD")  {
+            
           await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})       
           await cart.deleteOne({ userId: userData._id });
-
           res.json({ success: true})
-          await coupon.updateOne(
-          {couponName:data.coupon},
-          {$push:{users: {userId : objId}}}
-         )
+          await coupon.updateOne( {couponName:data.coupon}, {$push:{users: {userId : objId}}})
           } else {
+            // const orderId = orderData._id
             const session = await stripe.checkout.sessions.create({ 
               payment_method_types: ["card"], 
               line_items:
@@ -779,15 +730,15 @@ module.exports = {
                   }
                 }), 
               mode: "payment", 
-              success_url: `${process.env.SERVER_URL}/orderSuccess`,
+              success_url: `${process.env.SERVER_URL}/orderSuccess?cartId=${userData._id}&data=${data}&cartData=${cartData}&userData=${userData}`,
               cancel_url: `${process.env.SERVER_URL}/checkout` 
             });  
             console.log(session);
             res.json({ url: session.url})      
-          }
+          } 
 
         } else { 
-
+   
           res.redirect("/viewCart");
         }
       }
@@ -810,9 +761,9 @@ module.exports = {
       {
         $match: { userId: objId }, 
       },
-      {
+      { 
         $unwind: "$orderItems",
-      },
+      },  
       { 
         $project: {
           productItem: "$orderItems.productId",
