@@ -72,10 +72,14 @@
          
         </div>
         <% } else { %>
-          <h2 class="text-center text-danger">Oops!</h2><br>
-          <h3 class="text-center text-danger">Your Cart is empty </h3>
-          <div class=""><img src="/adminImages/emptyCart.png" style="width: 30%;height: 30%;" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
+         
+          <div class="p-3 m-3"><img src="/adminImages/emptyCart.png" style="width: 40%;height: 40%;" class="img-fluid rounded mx-auto d-block mb-5" alt="image">
+            <h2 class="text-center text-primary">Oops!</h2>
+            <h3 class="text-center text-primary">Your Cart is empty </h3>
             
+          </div>
+          <div class="text-center mb-3 ">
+            <a href="/shop"></a><button type="button" class="btn btn-primary">shop Now</button></a> 
           </div>
         <% } %>
         <div class="row">
