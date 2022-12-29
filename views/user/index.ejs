@@ -121,10 +121,12 @@
               <% product.forEach((products)=>{ %>
               <div class="item">
                 <div class="block-4 text-center" >
-                  <figure class="block-4-image "><a href="/productView/<%=products._id%>">
+                  <figure class="block-4-image ">
+                    <a href="/productView/<%=products._id%>">
                     <div class="d-flex justify-content-center">
-                    <img src="/adminImages/<%=products?._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;"></a>
-                  </div>
+                    <img src="/adminImages/<%=products?._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;">
+                    </div>
+                    </a>
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="/productView/<%=products._id%>"><%= products?.name %></a></h3>
@@ -132,8 +134,8 @@
                     <p class="text-primary font-weight-bold"><%= products?.price%></p>
                   </div>
                 </div>
-                <%})%>
               </div>
+              <%})%>
             </div>
           </div>
         </div>
