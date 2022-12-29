@@ -747,9 +747,7 @@ module.exports = {
     res.render('user/orderSuccess', { countInCart, countInWishlist })
   },
   orderDetails: async (req, res) => {
-
     const session = req.session.user;
-    
     const userData = await users.findOne({ email: session });
     const userId   = userData._id
     const objId    = mongoose.Types.ObjectId(userId);
@@ -817,11 +815,9 @@ module.exports = {
       } 
   
     ]).sort({ createdAt: -1 }); 
-    const orderDetails = await order.find({ userId: userData._id }).sort({ createdAt: -1 })
+    const orderDetails = await order.find({ userId: userData._id }).sort({ createdAt: -1 });
     console.log(productData.length)
-    res.render('user/orderDetails', { productData,orderDetails, countInCart, countInWishlist })
-
-  
+    res.render('user/orderDetails', { productData,orderDetails, countInCart, countInWishlist });
   },
   orderedProduct: async (req, res) => {
     const id = req.params.id;
