@@ -113,31 +113,31 @@
           <div class="col-md-7 site-section-heading text-center pt-4">
             <h2>Featured Products</h2>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+        </div>    
+        <div class="row">   
+          <div class="col-md-12">          
             <div class="nonloop-block-3 owl-carousel">
-              <% productData.forEach((product)=>{ %>
+              <% productData.forEach((product)=>{ %> 
               <div class="item">
                 <div class="block-4 text-center" >
                   <figure class="block-4-image ">
-                    <a href="/productView/<%=product?._id%>">
+                    <a href="/productView/<%=product._id%>">
                     <div class="d-flex justify-content-center">
-                    <img src="adminImages/<%=product?._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;">
+                    <img src="/adminImages/<%=product._id%>.jpg" alt="Image placeholder" class="img-fluid" style="width: 348px;height: 256px;">
                     </div>
                     </a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="/productView/<%=product?._id%>"><%= product?.name %></a></h3>
-                    <p class="mb-0"><%= product?.description%></p>
-                    <p class="text-primary font-weight-bold"><%= product?.price%></p>
+                    <h3><a href="/productView/<%=product._id%>"><%= product.name %></a></h3>
+                    <p class="mb-0"><%= product.description%></p>
+                    <p class="text-primary font-weight-bold"><%= product.price%></p>
                   </div>
                 </div>
               </div>
               <%})%>
             </div>
-          </div>
-        </div>
+          </div>       
+        </div>       
       </div>
     </div>
     <div class="site-section block-8">
