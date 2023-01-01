@@ -11,7 +11,6 @@
               <label class="form-label" for="form3Example1c">Product name</label>
               <input type="text" value="<%=productData.name%>" name="name" id="name"
                 class="form-control" />
-
             </div>
             <div class="form-outline flex-fill mb-0 mt-3">
               <label class="form-label" for="form3Example1c">Price per kg</label>
@@ -29,12 +28,10 @@
               <label class="form-label" for="form3Example1c">Description</label>
               <input type="text" value="<%=productData.description%>" name="description" id="description"
                 class="form-control" />
-
             </div>
             <div class="form-outline flex-fill mb-0 mt-3">
               <label class="form-label" for="form3Example1c">Stock</label>
               <input type="text" value="<%=productData.stock%>" name="stock" id="stock" class="form-control" />
-
             </div>
             <div class="form-outline flex-fill mb-0 mt-3">
               <label for="formFile" class="form-label">Product image</label>
@@ -46,9 +43,7 @@
               <button type="submit" class="btn btn-success btn-block mb-4">Edit product</button>
             </div>
           </form>
-
         </div>
-
         <script>
           function viewImage(event) {
             document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
@@ -64,7 +59,6 @@
       $("#menu-btn").click(function () {
         $("#menu").toggleClass("active");
       });
-    </script>
+  </script>
 </body>
-
 </html>

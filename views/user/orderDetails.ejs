@@ -148,11 +148,10 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                       <p class="text-muted mb-0 small">      
                         <% if(product.orderStatus=='placed' ||product.orderStatus=='pending' ||product.orderStatus=='Shipped'||product.orderStatus=='outForDelivery' ){ %>
-                        <a data-bs-toggle="modal" class="btn btn-outline-danger"
+                         <a data-bs-toggle="modal" class="btn btn-outline-danger"
                           data-bs-target="#exampleModal-<%=product._id%>">
                           Cancel
-                      </a>
-      
+                        </a>     
                         <% }else{%>
                            <b>Order Cancelled</b>
                           <% } %>
