@@ -598,7 +598,9 @@ module.exports = {
       return accumulator + object.productPrice;
     }, 0);
 
-
+    const query = req.query
+    console.log(query);
+    await order.deleteOne({_id:query.orderId})
     res.render("user/checkout", { productData, sum, countInCart, countInWishlist, userData });
 
 
@@ -634,7 +636,6 @@ module.exports = {
       } else {
 
         if (cartData) {
-
           const productData = await cart
             .aggregate([
               {
@@ -689,7 +690,7 @@ module.exports = {
               total = sum - dis;
             }
           }
-          const orderData = await order.create({
+          const orderData = new order({
             userId: userData._id,
             name: userData.name,
             phoneNumber: userData.phone,
@@ -697,21 +698,24 @@ module.exports = {
             orderItems: cartData.product,
             totalAmount: total,
             paymentMethod: req.body.paymentMethod,
-            // orderStatus: status,
             orderDate: moment().format("MMM Do YY"),
             deliveryDate: moment().add(3, "days").format("MMM Do YY")
           });
          
-          const orderId = orderData._id
+          
           
           if (req.body.paymentMethod === "COD")  {
+          const orderDatas = await orderData.save()
+          const orderId   = orderDatas._id
             
           await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})       
           await cart.deleteOne({ userId: userData._id });
           res.json({ success: true})
           await coupon.updateOne( {couponName:data.coupon}, {$push:{users: {userId : objId}}})
           } else {
-            // const orderId = orderData._id
+            const orderDatas = await  orderData.save();
+            const orderId = orderDatas._id;
+
             const session = await stripe.checkout.sessions.create({ 
               payment_method_types: ["card"], 
               line_items:
@@ -727,9 +731,9 @@ module.exports = {
                     quantity: ele.productQuantity, 
                   }
                 }), 
-              mode: "payment", 
-              success_url: `${process.env.SERVER_URL}/orderSuccess?cartId=${userData._id}&data=${data}&cartData=${cartData}&userData=${userData}`,
-              cancel_url: `${process.env.SERVER_URL}/checkout` 
+              mode: "payment",  
+              success_url: `${process.env.SERVER_URL}/orderSuccess?cartId=${userData._id}&orderId=${orderId}`,
+              cancel_url:  `${process.env.SERVER_URL}/checkout?orderId=${orderId}` 
             });  
             console.log(session);
             res.json({ url: session.url})      
@@ -744,6 +748,11 @@ module.exports = {
   },
 
   orderSuccess: async (req, res) => {
+    const query= req.query
+    const orderId = query.orderId
+    await order.updateOne({_id:orderId},{$set:{orderStatus:'placed',paymentStatus:'paid'}})
+    await cart.deleteOne({ userId: query.cartId });
+
     res.render('user/orderSuccess', { countInCart, countInWishlist })
   },
   orderDetails: async (req, res) => {
@@ -982,6 +991,9 @@ module.exports = {
     res.render('user/contact', { countInWishlist, countInCart });
   }
 }
+
+
+
 
 
 
